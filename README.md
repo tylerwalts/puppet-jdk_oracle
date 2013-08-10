@@ -7,7 +7,7 @@ There are several puppet modules available that will help install Oracle JDK, bu
 
 This approach was inspired by: http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
 
-_Note:  By using this module you agree to automatically accept the Oracle agreement to download Java._
+_Note:  By using this module you will automatically accept the Oracle agreement to download Java._
 
 Currently Supported:
 * RedHat Family (RedHat, Fedora, CentOS)
@@ -24,7 +24,7 @@ B) Puppet Librarian:
 * Put this in your Puppetfile:
 ```
     mod "jdk_oracle",
-      :git => "git://github.com/tylerwalts/puppet-jdk_oracle.git"
+        :git => "git://github.com/tylerwalts/puppet-jdk_oracle.git"
 ```
 
 
@@ -56,5 +56,15 @@ site.pp:
 ```
 
 
+Parameters:
+===========
 
+* java_install_dir  => Java Installation Directory
+
+
+TODO:
+=====
+
+* Add links for other OS families
+* Automate installation of security policies
 

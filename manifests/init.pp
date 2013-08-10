@@ -1,11 +1,10 @@
 # Installs the Oracle Java 7 JDK
 class jdk_oracle(
     $java_install_dir   ="/opt",
-    $java_home_dir      ="/opt/jdk1.7.0"
     ) {
 
     # Set in this scope to be accessible from elsewhere
-    $java_home = $java_home_dir
+    $java_home = "$java_install_dir/jdk1.7.0"
 
     exec { 'get_jdk_tarball':
         cwd     => "/opt",
