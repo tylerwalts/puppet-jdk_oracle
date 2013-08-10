@@ -22,26 +22,39 @@ A) Traditional:
 
 B) Puppet Librarian:
 * Put this in your Puppetfile:
+```
     mod "jdk_oracle",
       :git => "git://github.com/tylerwalts/puppet-jdk_oracle.git"
+```
 
 
 Usage:
 ======
 
 A)  Traditional:
+```
     include jdk_oracle
+```
 or
+```
     class { 'jdk_oracle': }
+```
 
 
 B) Hiera:
 config.json:
+```
     {
         classes":[
           "jdk_oracle"
         ]
     }
+```
 site.pp:
+```
     hiera_include("classes", [])
+```
+
+
+
 
