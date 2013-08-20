@@ -1,6 +1,6 @@
 # Installs the Oracle Java 7 JDK
 class jdk_oracle(
-    $java_install_dir   ="/opt",
+    $java_install_dir   ="/opt"
     ) {
 
     # Set in this scope to be accessible from elsewhere
@@ -23,9 +23,9 @@ class jdk_oracle(
         require => Exec['get_jdk_tarball'],
     }
 
-    # Set links
+    # Set links depending on osfamily or operating system fact
     case $::osfamily {
-        "RedHat":    {
+        RedHat, Linux: {
             file { "/etc/alternatives/java":
                 ensure  => link,
                 target  => "${java_home}/bin/java",
@@ -37,13 +37,13 @@ class jdk_oracle(
                 require => Exec['extract_jdk'],
             }
         }
-        "Debian":    { fail("TODO: Implement me!") }
-        "Suse":      { fail("TODO: Implement me!") }
-        "Solaris":   { fail("TODO: Implement me!") }
-        "Gentoo":    { fail("TODO: Implement me!") }
-        "Archlinux": { fail("TODO: Implement me!") }
-        "Mandrake":  { fail("TODO: Implement me!") }
-        default:     { fail("Unsupported osfamily") }
+        Debian:    { fail("TODO: Implement me!") }
+        Suse:      { fail("TODO: Implement me!") }
+        Solaris:   { fail("TODO: Implement me!") }
+        Gentoo:    { fail("TODO: Implement me!") }
+        Archlinux: { fail("TODO: Implement me!") }
+        Mandrake:  { fail("TODO: Implement me!") }
+        default:     { fail("Unsupported OS") }
     }
 
 }
