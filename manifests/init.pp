@@ -1,46 +1,73 @@
-# Installs the Oracle Java 7 JDK
+# Installs the Oracle Java JDK
 #
-# The puppet cache flages is for faster local vagrant development, to 
+# The puppet cache flag is for faster local vagrant development, to
 # locally host the tarball from oracle instead of fetching it each time.
 #
 class jdk_oracle(
-    $java_install_dir   = "/opt",
-    $use_cache          = "false"
+    $version      = hiera('jdk_oracle::version',     "7" ),
+    $install_dir  = hiera('jdk_oracle::install_dir', "/opt" ),
+    $use_cache    = hiera('jdk_oracle::use_cache',   "false" ),
     ) {
 
-    # Set in this scope to be accessible from elsewhere
-    $java_home = "$java_install_dir/jdk1.7.0"
+    case $version {
+        "7": {
+            $javaDownloadURI="http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-x64.tar.gz"
+            $java_home = "$install_dir/jdk1.7.0"
+        }
+        "6": {
+            $javaDownloadURI="http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin"
+            $java_home = "$install_dir/jdk1.6.0_45"
+        }
+    }
 
+    $installerFilename = inline_template('<%= File.basename(javaDownloadURI) %>')
 
     if ( "$use_cache" == "true" ){
         notify { 'Using local cache for oracle java': }
-        file { "$java_install_dir/jdk-7-linux-x64.tar.gz":
-            source  => 'puppet:///modules/jdk_oracle/jdk-7-linux-x64.tar.gz'
+        file { "$install_dir/jdk-${version}-linux-x64.tar.gz":
+            source  => 'puppet:///modules/jdk_oracle/jdk-${version}-linux-x64.tar.gz'
         }
-        exec { 'get_jdk_tarball':
-            cwd     => "$java_install_dir",
-            creates => "$java_install_dir/jdk_from_cache",
+        exec { 'get_jdk_installer':
+            cwd     => "$install_dir",
+            creates => "$install_dir/jdk_from_cache",
             command => "touch jdk_from_cache",
             path    => ["/usr/bin", "/usr/sbin", "/bin"],
-            require => File["$java_install_dir/jdk-7-linux-x64.tar.gz"],
+            require => File["$install_dir/jdk-${version}-linux-x64.tar.gz"],
         }
     } else {
-        exec { 'get_jdk_tarball':
-            cwd     => "$java_install_dir",
-            creates => "$java_install_dir/jdk-7-linux-x64.tar.gz",
+        exec { 'get_jdk_installer':
+            cwd     => "$install_dir",
+            creates => "${install_dir}/${installerFilename}",
             path    => ["/usr/bin", "/usr/sbin", "/bin"],
-            command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" \"http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-x64.tar.gz\" -O jdk-7-linux-x64.tar.gz",
+            command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" \"$javaDownloadURI\" -O ${installerFilename}",
             timeout => 600,
             require => Package['wget'],
         }
     }
 
-    exec { 'extract_jdk':
-        cwd     => "$java_install_dir/",
-        command => "tar -xf jdk-7-linux-x64.tar.gz",
-        creates => "$java_install_dir/jdk1.7.0",
-        path    => ["/usr/bin", "/usr/sbin", "/bin"],
-        require => Exec['get_jdk_tarball'],
+    # Java 7 comes in a tarball so just extract it.
+    if ( $version == "7" ) {
+        exec { 'extract_jdk':
+            cwd     => "$install_dir/",
+            command => "tar -xf ${installerFilename}",
+            creates => $java_home,
+            path    => ["/usr/bin", "/usr/sbin", "/bin"],
+            require => Exec['get_jdk_installer'],
+        }
+    }
+    # Java 6 comes as a self-extracting binary
+    if ( $version == "6" ) {
+        file { "$install_dir/${installerFilename}":
+            mode    => 0755,
+            require => Exec['get_jdk_installer'],
+        }
+        exec { 'extract_jdk':
+            cwd     => "$install_dir/",
+            command => "$install_dir/${installerFilename}",
+            creates => $java_home,
+            path    => ["/usr/bin", "/usr/sbin", "/bin"],
+            require => File["$install_dir/${installerFilename}"],
+        }
     }
 
     # Set links depending on osfamily or operating system fact
