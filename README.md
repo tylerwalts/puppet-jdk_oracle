@@ -11,7 +11,7 @@ _Note:  By using this module you will automatically accept the Oracle agreement 
 
 Currently Supported:
 * RedHat Family (RedHat, Fedora, CentOS)
-* Java 7
+* Java 6, 7
 
 
 Installation:
@@ -59,7 +59,12 @@ site.pp:
 Parameters:
 ===========
 
-* java_install_dir  => Java Installation Directory
+* version
+    * Java Version to install
+* java_install_dir
+    * Java Installation Directory
+* use_cache
+    * Optionally host the installer file locally instead of fetching it each time, for faster dev & test
 
 
 TODO:
