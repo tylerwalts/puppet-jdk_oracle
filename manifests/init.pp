@@ -20,7 +20,7 @@ class jdk_oracle(
         }
     }
 
-    $installerFilename = inline_template('<%= File.basename(javaDownloadURI) %>')
+    $installerFilename = inline_template('<%= File.basename(@javaDownloadURI) %>')
 
     if ( "$use_cache" == "true" ){
         notify { 'Using local cache for oracle java': }
