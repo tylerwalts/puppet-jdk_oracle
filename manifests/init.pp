@@ -93,6 +93,11 @@ class jdk_oracle(
                 target  => "/etc/alternatives/javac",
                 require => File['/etc/alternatives/javac'],
             }
+            file { "/opt/java_home":
+                ensure  => link,
+                target  => "$java_home",
+                require => Exec['extract_jdk'],
+            }
         }
         Debian:    { fail("TODO: Implement me!") }
         Suse:      { fail("TODO: Implement me!") }
