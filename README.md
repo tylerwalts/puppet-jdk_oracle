@@ -50,6 +50,15 @@ config.json:
         ]
     }
 ```
+OR
+config.yaml:
+```
+---
+  classes: 
+    - "jdk_oracle"
+  jdk_oracle::version: "6"
+```
+
 site.pp:
 ```
     hiera_include("classes", [])
