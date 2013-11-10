@@ -1,0 +1,8 @@
+name    'tylerwalts-jdk_oracle'
+version '1.1.0'
+source 'https://github.com/tylerwalts/puppet-jdk_oracle'
+author 'tylerwalts'
+license 'Apache License, Version 2.0'
+summary 'Module for automating Oracle JDK download and installation'
+description 'Module for automating Oracle JDK download and installation'
+project_page 'https://github.com/tylerwalts/puppet-jdk_oracle'
