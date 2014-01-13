@@ -6,3 +6,4 @@ gem 'puppet-lint'
 gem 'rspec-puppet'
 gem 'rspec-hiera-puppet'
 gem 'puppetlabs_spec_helper', '>= 0.1.0'
+gem 'coveralls', require: false
