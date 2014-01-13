@@ -87,3 +87,7 @@ TODO:
 * Add links for other OS families
 * Automate installation of security policies
 
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/tylerwalts/puppet-jdk_oracle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
