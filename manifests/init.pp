@@ -7,18 +7,31 @@ class jdk_oracle(
     $version      = hiera('jdk_oracle::version',     '7' ),
     $install_dir  = hiera('jdk_oracle::install_dir', '/opt' ),
     $use_cache    = hiera('jdk_oracle::use_cache',   false ),
+    $platform	  = hiera('jdk_oracle::platform',   'x64' ),
     ) {
 
     # Set default exec path for this module
     Exec { path    => ['/usr/bin', '/usr/sbin', '/bin'] }
 
+    case $platform {
+        'x64': {
+            $plat_filename = 'x64'
+        }
+        'x86': {
+            $plat_filename = 'i586'
+        }
+        default: {
+            fail("Unsupported platform: ${platform}.  Implement me?")
+        }
+    }
+
     case $version {
         '7': {
-            $javaDownloadURI = 'http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-x64.tar.gz'
+            $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-${plat_filename}.tar.gz"
             $java_home = "${install_dir}/jdk1.7.0"
         }
         '6': {
-            $javaDownloadURI = 'http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin'
+            $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
             $java_home = "${install_dir}/jdk1.6.0_45"
         }
         default: {
