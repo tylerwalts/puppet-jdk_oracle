@@ -3,8 +3,8 @@ rvm:
   - 1.9.3
   - ruby-head
 script:
-  - "rake lint"
-  - "rake spec SPEC_OPTS='--format documentation'"
+  - "bundle exec rake lint"
+  - "bundle exec rake spec SPEC_OPTS='--format documentation'"
 env:
   - PUPPET_VERSION="~> 3.0.0"
   - PUPPET_VERSION="~> 3.1.0"
