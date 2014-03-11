@@ -7,7 +7,7 @@ class jdk_oracle(
     $version      = hiera('jdk_oracle::version',     '7' ),
     $install_dir  = hiera('jdk_oracle::install_dir', '/opt' ),
     $use_cache    = hiera('jdk_oracle::use_cache',   false ),
-    $platform	  = hiera('jdk_oracle::platform',   'x64' ),
+    $platform     = hiera('jdk_oracle::platform',   'x64' ),
     ) {
 
     # Set default exec path for this module
