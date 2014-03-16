@@ -19,6 +19,9 @@ describe 'jdk_oracle', :type => 'class' do
                     :ensure  => 'link',
                     :target  => '/opt/jdk1.7.0/bin/java',
                 })
+                should contain_file('/opt/jdk-7').with({
+                    :ensure  => 'link',
+                })
             }
         end
 
@@ -30,6 +33,9 @@ describe 'jdk_oracle', :type => 'class' do
             it {
                 should contain_file('/opt/jdk-6u45-linux-x64.bin')
                 should contain_exec('extract_jdk').with_creates('/opt/jdk1.6.0_45')
+                should contain_file('/opt/jdk-6').with({
+                    :ensure  => 'link',
+                })
             }
         end
 
