@@ -1,7 +1,27 @@
-# Installs the Oracle Java JDK
+# == Class: jdk_oracle
 #
-# The puppet cache flag is for faster local vagrant development, to
-# locally host the tarball from oracle instead of fetching it each time.
+# Installs the Oracle Java JDK, from the Oracle servers
+#
+# === Parameters
+#
+# [*version*]
+#   String.  Java Version to install
+#   Defaults to <tt>7</tt>.
+#
+# [* java_install_dir *]
+#   String.  Java Installation Directory
+#   Defaults to <tt>/opt</tt>.
+#
+# [* use_cache *]
+#   String.  Optionally host the installer file locally instead of fetching it each time (for faster dev & test)
+#   The puppet cache flag is for faster local vagrant development, to
+#   locally host the tarball from oracle instead of fetching it each time.
+#   Defaults to <tt>false</tt>.
+#
+# [* platform *]
+#   String.  The platform to use
+#   Defaults to <tt>x64</tt>.
+#
 #
 class jdk_oracle(
     $version      = hiera('jdk_oracle::version',     '7' ),

@@ -15,18 +15,26 @@ This approach was inspired by: http://stackoverflow.com/questions/10268583/how-t
 
 
 Currently Supported:
-* RedHat Family (RedHat, Fedora, CentOS)
-* Java 6, 7
+*  RedHat Family (RedHat, Fedora, CentOS)
+*  Java 6, 7
 
+*  This may work on other linux flavors but more testing is needed.  Please seend feedback!
 
 Installation:
 =============
+
 
 A) Traditional:
 * Copy this project into your puppet modules path and rename to "jdk_oracle"
 
 B) Puppet Librarian:
 * Put this in your Puppetfile:
+From Forge:
+```
+mod "tylerwalts/jdk_oracle"
+```
+
+From Source:
 ```
     mod "jdk_oracle",
         :git => "git://github.com/tylerwalts/puppet-jdk_oracle.git"
@@ -59,7 +67,7 @@ OR
 config.yaml:
 ```
 ---
-  classes: 
+  classes:
     - "jdk_oracle"
   jdk_oracle::version: "6"
 ```
@@ -74,20 +82,12 @@ Parameters:
 ===========
 
 * version
-    * Java Version to install
-* java_install_dir
-    * Java Installation Directory
-* use_cache
-    * Optionally host the installer file locally instead of fetching it each time, for faster dev & test
+    *  Java Version to install
+*  java_install_dir
+    *  Java Installation Directory
+*  use_cache
+    *  Optionally host the installer file locally instead of fetching it each time, for faster dev & test
+*  platform
+    *  The platform to use
 
-
-TODO:
-=====
-
-* Add links for other OS families
-* Automate installation of security policies
-
-
-
-[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/tylerwalts/puppet-jdk_oracle/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
 
