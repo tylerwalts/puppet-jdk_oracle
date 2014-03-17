@@ -51,7 +51,7 @@ class jdk_oracle(
             $java_home = "${install_dir}/jdk1.7.0"
         }
         '6': {
-            $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin"
+            $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
             $java_home = "${install_dir}/jdk1.6.0_45"
         }
         default: {
