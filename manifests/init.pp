@@ -51,7 +51,7 @@ class jdk_oracle(
             $java_home = "${install_dir}/jdk1.7.0"
         }
         '6': {
-            $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
+            $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-x64.bin"
             $java_home = "${install_dir}/jdk1.6.0_45"
         }
         default: {
@@ -76,7 +76,7 @@ class jdk_oracle(
         exec { 'get_jdk_installer':
             cwd     => $install_dir,
             creates => "${install_dir}/${installerFilename}",
-            command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" \"${javaDownloadURI}\" -O ${installerFilename}",
+            command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
             timeout => 600,
             require => Package['wget'],
         }
