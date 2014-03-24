@@ -46,6 +46,10 @@ class jdk_oracle(
     }
 
     case $version {
+        '8': {
+            $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/8-b132/jdk-8-linux-${plat_filename}.tar.gz"
+            $java_home = "${install_dir}/jdk1.8.0"
+        }
         '7': {
             $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-${plat_filename}.tar.gz"
             $java_home = "${install_dir}/jdk1.7.0"
@@ -86,8 +90,8 @@ class jdk_oracle(
         }
     }
 
-    # Java 7 comes in a tarball so just extract it.
-    if ( $version == '7' ) {
+    # Java 7/8 comes in a tarball so just extract it.
+    if ( $version in [ '7', '8' ] ) {
         exec { 'extract_jdk':
             cwd     => "${install_dir}/",
             command => "tar -xf ${installerFilename}",
