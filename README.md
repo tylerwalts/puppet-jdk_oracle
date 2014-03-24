@@ -16,7 +16,7 @@ This approach was inspired by: http://stackoverflow.com/questions/10268583/how-t
 
 Currently Supported:
 *  RedHat Family (RedHat, Fedora, CentOS)
-*  Java 6, 7
+*  Java 6, 7, 8
 
 *  This may work on other linux flavors but more testing is needed.  Please seend feedback!
 

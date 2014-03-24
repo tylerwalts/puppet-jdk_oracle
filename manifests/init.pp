@@ -46,12 +46,16 @@ class jdk_oracle(
     }
 
     case $version {
+        '8': {
+            $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/8-b132/jdk-8-linux-${plat_filename}.tar.gz"
+            $java_home = "${install_dir}/jdk1.8.0"
+        }
         '7': {
             $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-${plat_filename}.tar.gz"
             $java_home = "${install_dir}/jdk1.7.0"
         }
         '6': {
-            $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
+            $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
             $java_home = "${install_dir}/jdk1.6.0_45"
         }
         default: {
@@ -76,7 +80,7 @@ class jdk_oracle(
         exec { 'get_jdk_installer':
             cwd     => $install_dir,
             creates => "${install_dir}/${installerFilename}",
-            command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" \"${javaDownloadURI}\" -O ${installerFilename}",
+            command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
             timeout => 600,
             require => Package['wget'],
         }
@@ -86,8 +90,8 @@ class jdk_oracle(
         }
     }
 
-    # Java 7 comes in a tarball so just extract it.
-    if ( $version == '7' ) {
+    # Java 7/8 comes in a tarball so just extract it.
+    if ( $version in [ '7', '8' ] ) {
         exec { 'extract_jdk':
             cwd     => "${install_dir}/",
             command => "tar -xf ${installerFilename}",
