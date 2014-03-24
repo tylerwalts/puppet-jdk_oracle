@@ -39,6 +39,25 @@ describe 'jdk_oracle', :type => 'class' do
             }
         end
 
+        context 'specifying version 8' do
+            let :params do {
+                :version => '8',
+            } end
+
+            it {
+                should contain_exec( 'get_jdk_installer').with_creates('/opt/jdk-8-linux-x64.tar.gz')
+                should contain_file('/opt/jdk-8-linux-x64.tar.gz')
+                should contain_exec('extract_jdk').with_creates('/opt/jdk1.8.0')
+                should contain_file('/etc/alternatives/java').with({
+                    :ensure  => 'link',
+                    :target  => '/opt/jdk1.8.0/bin/java',
+                })
+                should contain_file('/opt/jdk-8').with({
+                    :ensure  => 'link',
+                })
+            }
+        end
+
         context 'using custom installation directory' do
             let :params do {
                 :install_dir => '/my/path',
