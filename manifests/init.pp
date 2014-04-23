@@ -74,7 +74,7 @@ class jdk_oracle(
             cwd     => $install_dir,
             creates => "${install_dir}/jdk_from_cache",
             command => 'touch jdk_from_cache',
-            require => File["${install_dir}/jdk-${version}-linux-x64.tar.gz"],
+            require => File["${install_dir}/${installerFilename}"],
         }
     } else {
         exec { 'get_jdk_installer':
