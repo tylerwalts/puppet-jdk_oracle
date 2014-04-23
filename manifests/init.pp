@@ -150,6 +150,12 @@ class jdk_oracle(
             exec { "/usr/sbin/update-alternatives --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
                 require => Exec['extract_jdk'],
             }
+            augeas { 'environment':
+                context => '/files/etc/environment',
+                changes => [
+                    "set JAVA_HOME ${java_home}",
+                ],
+            }
         }
         Suse:      { fail('TODO: Implement me!') }
         Solaris:   { fail('TODO: Implement me!') }
