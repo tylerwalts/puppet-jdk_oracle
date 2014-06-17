@@ -12,12 +12,12 @@ describe 'jdk_oracle', :type => 'class' do
 
         context 'with default parameters' do
             it {
-                should contain_exec( 'get_jdk_installer').with_creates('/opt/jdk-7-linux-x64.tar.gz')
-                should contain_file('/opt/jdk-7-linux-x64.tar.gz')
-                should contain_exec('extract_jdk').with_creates('/opt/jdk1.7.0')
+                should contain_exec( 'get_jdk_installer').with_creates('/opt/jdk-7u55-linux-x64.tar.gz')
+                should contain_file('/opt/jdk-7u55-linux-x64.tar.gz')
+                should contain_exec('extract_jdk').with_creates('/opt/jdk1.7.0_55')
                 should contain_file('/etc/alternatives/java').with({
                     :ensure  => 'link',
-                    :target  => '/opt/jdk1.7.0/bin/java',
+                    :target  => '/opt/jdk1.7.0_55/bin/java',
                 })
                 should contain_file('/opt/jdk-7').with({
                     :ensure  => 'link',
@@ -45,12 +45,12 @@ describe 'jdk_oracle', :type => 'class' do
             } end
 
             it {
-                should contain_exec( 'get_jdk_installer').with_creates('/opt/jdk-8-linux-x64.tar.gz')
-                should contain_file('/opt/jdk-8-linux-x64.tar.gz')
-                should contain_exec('extract_jdk').with_creates('/opt/jdk1.8.0')
+                should contain_exec( 'get_jdk_installer').with_creates('/opt/jdk-8u5-linux-x64.tar.gz')
+                should contain_file('/opt/jdk-8u5-linux-x64.tar.gz')
+                should contain_exec('extract_jdk').with_creates('/opt/jdk1.8.0_05')
                 should contain_file('/etc/alternatives/java').with({
                     :ensure  => 'link',
-                    :target  => '/opt/jdk1.8.0/bin/java',
+                    :target  => '/opt/jdk1.8.0_05/bin/java',
                 })
                 should contain_file('/opt/jdk-8').with({
                     :ensure  => 'link',
@@ -76,8 +76,8 @@ describe 'jdk_oracle', :type => 'class' do
             } end
 
             it {
-                should contain_file('/opt/jdk-7-linux-x64.tar.gz').with({
-                    :source => 'puppet:///modules/jdk_oracle/jdk-7-linux-x64.tar.gz',
+                should contain_file('/opt/jdk-7u55-linux-x64.tar.gz').with({
+                    :source => 'puppet:///modules/jdk_oracle/jdk-7u55-linux-x64.tar.gz',
                 })
             }
         end

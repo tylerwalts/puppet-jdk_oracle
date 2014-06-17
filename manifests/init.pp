@@ -53,12 +53,12 @@ class jdk_oracle(
 
         case $version {
             '8': {
-                $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/8-b132/jdk-8-linux-${plat_filename}.tar.gz"
-                $java_home = "${install_dir}/jdk1.8.0"
+                $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-${plat_filename}.tar.gz"
+                $java_home = "${install_dir}/jdk1.8.0_05"
             }
             '7': {
-                $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/7/jdk-7-linux-${plat_filename}.tar.gz"
-                $java_home = "${install_dir}/jdk1.7.0"
+                $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/7u55-b13/jdk-7u55-linux-${plat_filename}.tar.gz"
+                $java_home = "${install_dir}/jdk1.7.0_55"
             }
             '6': {
                 $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
@@ -80,7 +80,7 @@ class jdk_oracle(
                 cwd     => $install_dir,
                 creates => "${install_dir}/jdk_from_cache",
                 command => 'touch jdk_from_cache',
-                require => File["${install_dir}/jdk-${version}-linux-x64.tar.gz"],
+                require => File["${install_dir}/${installerFilename}"],
             }
         } else {
             exec { 'get_jdk_installer':
