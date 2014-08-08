@@ -92,10 +92,9 @@ class jdk_oracle(
                 require => Package['wget'],
             }
 
-	    file { "${install_dir}":
-	        ensure => "directory",
+            file { "${install_dir}":
+                ensure  => "directory",
             }
-            
             file { "${install_dir}/${installerFilename}":
                 mode    => '0755',
                 require => Exec['get_jdk_installer'],
