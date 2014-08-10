@@ -37,9 +37,9 @@ describe 'jdk_oracle', :type => 'class' do
       }
     end
 
-    context 'specifying version 8' do
+    context 'specifying version 7' do
       let :params do {
-        :version => '8',
+        :version => '7',
       } end
 
       it {
