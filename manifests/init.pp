@@ -63,12 +63,12 @@ class jdk_oracle(
 
     case $version {
       '8': {
-        if (${version_update} != 'default') {
+        if ($version_update != 'default') {
           $version_u = $version_update
         } else {
           $version_u = $default_8_update
         }
-        if (${version_build} != 'default'){
+        if ($version_build != 'default'){
           $version_b = $version_build
         } else {
           $version_b = d$default_8_build
@@ -77,12 +77,12 @@ class jdk_oracle(
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
       }
       '7': {
-        if (${version_update} != 'default'){
+        if ($version_update != 'default'){
           $version_u = $version_update
         } else {
           $version_u = $default_7_update
         }
-        if (${version_build} != 'default'){
+        if ($version_build != 'default'){
           $version_b = $version_build
         } else {
           $version_u = $default_7_build
@@ -91,12 +91,12 @@ class jdk_oracle(
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
       }
       '6': {
-        if (${version_update} != 'default'){
+        if ($version_update != 'default'){
           $version_u = $version_update
         } else {
           $version_u = $default_6_update
         }
-        if (${version_build} != 'default'){
+        if ($version_build != 'default'){
           $version_b = $version_build
         } else {
           $version_u = $default_6_build
