@@ -115,7 +115,7 @@ class jdk_oracle(
       notify { 'Using local cache for oracle java': }
       file { "${install_dir}/${installerFilename}":
         source  => "puppet:///modules/jdk_oracle/${installerFilename}",
-        require => File["${install_dir}"],
+        require => File[${install_dir}],
       } ->
       exec { 'get_jdk_installer':
         cwd     => $install_dir,
@@ -131,9 +131,9 @@ class jdk_oracle(
         require => Package['wget'],
       }
 
-      if ! defined(File["${install_dir}"]) {
-        file { "${install_dir}":
-          ensure  => "directory",
+      if ! defined(File[${install_dir}]) {
+        file { ${install_dir}:
+          ensure  => directory,
         }
       }
 
