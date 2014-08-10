@@ -8,6 +8,14 @@
 #   String.  Java Version to install
 #   Defaults to <tt>7</tt>.
 #
+# [*version_update*]
+#   String.  Java Version Update to install
+#   Defaults to <tt>Defaults based on major version</tt>.
+#
+# [*version_build*]
+#   String.  Java Version build to install
+#   Defaults to <tt>Defaults based on major version</tt>.
+#
 # [* java_install_dir *]
 #   String.  Java Installation Directory
 #   Defaults to <tt>/opt</tt>.
@@ -27,11 +35,13 @@
 #   Defaults to <tt>installed</tt>.
 #
 class jdk_oracle(
-    $version      = hiera('jdk_oracle::version',     '7' ),
-    $install_dir  = hiera('jdk_oracle::install_dir', '/opt' ),
-    $use_cache    = hiera('jdk_oracle::use_cache',   false ),
-    $platform     = hiera('jdk_oracle::platform',   'x64' ),
-    $ensure     = 'installed'
+    $version        = hiera('jdk_oracle::version',        '8' ),
+    $version_update = hiera('jdk_oracle::version_update', 'default' ),
+    $version_build  = hiera('jdk_oracle::version_build',  'default' ),
+    $install_dir    = hiera('jdk_oracle::install_dir',    '/opt' ),
+    $use_cache      = hiera('jdk_oracle::use_cache',      false ),
+    $platform       = hiera('jdk_oracle::platform',       'x64' ),
+    $ensure         = 'installed'
     ) {
 
 
@@ -40,27 +50,27 @@ class jdk_oracle(
         Exec { path    => ['/usr/bin', '/usr/sbin', '/bin'] }
 
         case $platform {
-            'x64': {
-                $plat_filename = 'x64'
-            }
-            'x86': {
-                $plat_filename = 'i586'
-            }
-            default: {
-                fail("Unsupported platform: ${platform}.  Implement me?")
-            }
+            'x64': { $plat_filename = 'x64' }
+            'x86': { $plat_filename = 'i586' }
+            default: { fail("Unsupported platform: ${platform}.  Implement me?") }
         }
 
         case $version {
             '8': {
-                $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/8u5-b13/jdk-8u5-linux-${plat_filename}.tar.gz"
-                $java_home = "${install_dir}/jdk1.8.0_05"
+                "${version_update}" != "default" ? $version_u = $version_update : $version_u = "11"
+                "${version_build}" != "default" ? $version_b = $version_build : $version_b = "12"
+                $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
+                $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
             }
             '7': {
-                $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/7u55-b13/jdk-7u55-linux-${plat_filename}.tar.gz"
-                $java_home = "${install_dir}/jdk1.7.0_55"
+                "${version_update}" != "default" ? $version_u = $version_update : $version_u = "67"
+                "${version_build}" != "default" ? $version_b = $version_build : $version_b = "01"
+                $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
+                $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
             }
             '6': {
+                "${version_update}" != "default" ? $version_u = $version_update : $version_u = "45"
+                "${version_build}" != "default" ? $version_b = $version_build : $version_b = "06"
                 $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
                 $java_home = "${install_dir}/jdk1.6.0_45"
             }
