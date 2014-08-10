@@ -99,8 +99,11 @@ class jdk_oracle(
                 mode    => '0755',
                 require => Exec['get_jdk_installer'],
             }
-            package { 'wget':
-              ensure => present,
+
+            if ! defined(Package['wget']) {
+                package { 'wget':
+                    ensure =>  present,
+                }
             }
         }
 
