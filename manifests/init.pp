@@ -94,6 +94,12 @@ class jdk_oracle(
                 mode    => '0755',
                 require => Exec['get_jdk_installer'],
             }
+
+            if ! defined(Package['wget']) {
+                package { 'wget':
+                    ensure =>  present,
+                }
+            }
         }
 
         # Java 7/8 comes in a tarball so just extract it.
