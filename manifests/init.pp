@@ -44,6 +44,12 @@ class jdk_oracle(
   $ensure         = 'installed'
   ) {
 
+  $default_8_update = '11'
+  $default_8_build  = '12'
+  $default_7_update = '67'
+  $default_7_build  = '01'
+  $default_6_update = '45'
+  $default_6_build  = '06'
 
   if $ensure == 'installed' {
     # Set default exec path for this module
@@ -57,46 +63,46 @@ class jdk_oracle(
 
     case $version {
       '8': {
-        if ("${version_update}" != 'default') {
+        if (${version_update} != 'default') {
           $version_u = $version_update
         } else {
-          $version_u = "11"
+          $version_u = $default_8_update
         }
-        if ("${version_build}" != 'default'){
+        if (${version_build} != 'default'){
           $version_b = $version_build
         } else {
-          $version_b = "12"
+          $version_b = d$default_8_build
         }
         $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
       }
       '7': {
-        if ("${version_update}" != 'default'){
+        if (${version_update} != 'default'){
           $version_u = $version_update
         } else {
-          $version_u = "67"
+          $version_u = $default_7_update
         }
-        if ("${version_build}" != 'default'){
+        if (${version_build} != 'default'){
           $version_b = $version_build
         } else {
-          $version_b = "01"
+          $version_u = $default_7_build
         }
         $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
       }
       '6': {
-        if ("${version_update}" != 'default'){
+        if (${version_update} != 'default'){
           $version_u = $version_update
         } else {
-          $version_u = "45"
+          $version_u = $default_6_update
         }
-        if ("${version_build}" != 'default'){
+        if (${version_build} != 'default'){
           $version_b = $version_build
         } else {
-          $version_b = "06"
+          $version_u = $default_6_build
         }
-        $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
-        $java_home = "${install_dir}/jdk1.6.0_45"
+        $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.bin"
+        $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
       }
       default: {
         fail("Unsupported version: ${version}.  Implement me?")
@@ -112,13 +118,13 @@ class jdk_oracle(
         require => File["${install_dir}"],
       } ->
       exec { 'get_jdk_installer':
-        cwd   => $install_dir,
+        cwd     => $install_dir,
         creates => "${install_dir}/jdk_from_cache",
         command => 'touch jdk_from_cache',
       }
     } else {
       exec { 'get_jdk_installer':
-        cwd   => $install_dir,
+        cwd     => $install_dir,
         creates => "${install_dir}/${installerFilename}",
         command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
         timeout => 600,
@@ -132,7 +138,7 @@ class jdk_oracle(
       }
 
       file { "${install_dir}/${installerFilename}":
-        mode  => '0755',
+        mode    => '0755',
         require => Exec['get_jdk_installer'],
       }
 
@@ -146,7 +152,7 @@ class jdk_oracle(
     # Java 7/8 comes in a tarball so just extract it.
     if ( $version in [ '7', '8' ] ) {
       exec { 'extract_jdk':
-        cwd   => "${install_dir}/",
+        cwd     => "${install_dir}/",
         command => "tar -xf ${installerFilename}",
         creates => $java_home,
         require => Exec['get_jdk_installer'],
@@ -155,7 +161,7 @@ class jdk_oracle(
     # Java 6 comes as a self-extracting binary
     if ( $version == '6' ) {
       exec { 'extract_jdk':
-        cwd   => "${install_dir}/",
+        cwd     => "${install_dir}/",
         command => "${install_dir}/${installerFilename}",
         creates => $java_home,
         require => File["${install_dir}/${installerFilename}"],

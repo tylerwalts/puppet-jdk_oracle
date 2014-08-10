@@ -12,14 +12,14 @@ describe 'jdk_oracle', :type => 'class' do
 
         context 'with default parameters' do
             it {
-                should contain_exec( 'get_jdk_installer').with_creates('/opt/jdk-7u55-linux-x64.tar.gz')
-                should contain_file('/opt/jdk-7u55-linux-x64.tar.gz')
-                should contain_exec('extract_jdk').with_creates('/opt/jdk1.7.0_55')
+                should contain_exec( 'get_jdk_installer').with_creates("/opt/jdk-8u${::jdk_oracle::default_8_update}-linux-x64.tar.gz")
+                should contain_file ("/opt/jdk-8u${::jdk_oracle::default_8_update}-linux-x64.tar.gz")
+                should contain_exec('extract_jdk').with_creates("/opt/jdk1.8.0_${::jdk_oracle::default_8_update}")
                 should contain_file('/etc/alternatives/java').with({
                     :ensure  => 'link',
-                    :target  => '/opt/jdk1.7.0_55/bin/java',
+                    :target  => "/opt/jdk1.8.0_${::jdk_oracle::default_8_update}/bin/java",
                 })
-                should contain_file('/opt/jdk-7').with({
+                should contain_file('/opt/jdk-8').with({
                     :ensure  => 'link',
                 })
             }
@@ -31,8 +31,8 @@ describe 'jdk_oracle', :type => 'class' do
             } end
 
             it {
-                should contain_file('/opt/jdk-6u45-linux-x64.bin')
-                should contain_exec('extract_jdk').with_creates('/opt/jdk1.6.0_45')
+                should contain_file("/opt/jdk-6u${::jdk_oracle::default_6_update}-linux-x64.bin")
+                should contain_exec('extract_jdk').with_creates("/opt/jdk1.6.0_${::jdk_oracle::default_6_update}")
                 should contain_file('/opt/jdk-6').with({
                     :ensure  => 'link',
                 })
@@ -45,14 +45,14 @@ describe 'jdk_oracle', :type => 'class' do
             } end
 
             it {
-                should contain_exec( 'get_jdk_installer').with_creates('/opt/jdk-8u5-linux-x64.tar.gz')
-                should contain_file('/opt/jdk-8u5-linux-x64.tar.gz')
-                should contain_exec('extract_jdk').with_creates('/opt/jdk1.8.0_05')
+                should contain_exec( 'get_jdk_installer').with_creates("/opt/jdk-7u${::jdk_oracle::default_7_update}-linux-x64.tar.gz")
+                should contain_file ("/opt/jdk-7u${::jdk_oracle::default_7_update}-linux-x64.tar.gz")
+                should contain_exec('extract_jdk').with_creates("/opt/jdk1.7.0_${::jdk_oracle::default_7_update}")
                 should contain_file('/etc/alternatives/java').with({
                     :ensure  => 'link',
-                    :target  => '/opt/jdk1.8.0_05/bin/java',
+                    :target  => "/opt/jdk1.7.0_${::jdk_oracle::default_7_update}/bin/java",
                 })
-                should contain_file('/opt/jdk-8').with({
+                should contain_file('/opt/jdk-7').with({
                     :ensure  => 'link',
                 })
             }
@@ -65,8 +65,8 @@ describe 'jdk_oracle', :type => 'class' do
             } end
 
             it {
-                should contain_file('/my/path/jdk-6u45-linux-x64.bin')
-                should contain_exec('extract_jdk').with_creates('/my/path/jdk1.6.0_45')
+                should contain_file("/my/path/jdk-6u${::jdk_oracle::default_6_update}-linux-x64.bin")
+                should contain_exec('extract_jdk').with_creates("/my/path/jdk1.6.0_${::jdk_oracle::default_6_update}")
             }
         end
 
@@ -76,8 +76,8 @@ describe 'jdk_oracle', :type => 'class' do
             } end
 
             it {
-                should contain_file('/opt/jdk-7u55-linux-x64.tar.gz').with({
-                    :source => 'puppet:///modules/jdk_oracle/jdk-7u55-linux-x64.tar.gz',
+                should contain_file('/opt/jdk-8u${::jdk_oracle::default_8_update}-linux-x64.tar.gz').with({
+                    :source => 'puppet:///modules/jdk_oracle/jdk-7u${::jdk_oracle::default_8_update}-linux-x64.tar.gz',
                 })
             }
         end
@@ -86,8 +86,8 @@ describe 'jdk_oracle', :type => 'class' do
 
     context 'When deploying on unsupported OS' do
         let :facts do {
-            :operatingsystem => 'Debian',
-            :osfamily        => 'Debian',
+            :operatingsystem => 'Vista',
+            :osfamily        => 'Windows',
         }
         end
 
