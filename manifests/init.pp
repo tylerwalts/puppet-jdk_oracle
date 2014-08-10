@@ -57,20 +57,44 @@ class jdk_oracle(
 
         case $version {
             '8': {
-                "${version_update}" != "default" ? $version_u = $version_update : $version_u = "11"
-                "${version_build}" != "default" ? $version_b = $version_build : $version_b = "12"
+                if ("${version_update}" != "default") {
+                    $version_u = $version_update
+                } else {
+                    $version_u = "11"
+                }
+                if ("${version_build}" != "default"){
+                    $version_b = $version_build
+                } else {
+                    $version_b = "12"
+                }
                 $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
                 $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
             }
             '7': {
-                "${version_update}" != "default" ? $version_u = $version_update : $version_u = "67"
-                "${version_build}" != "default" ? $version_b = $version_build : $version_b = "01"
+                if ("${version_update}" != "default"){
+                    $version_u = $version_update
+                } else {
+                    $version_u = "67"
+                }
+                if ("${version_build}" != "default"){
+                    $version_b = $version_build
+                } else {
+                    $version_b = "01"
+                }
                 $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
                 $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
             }
             '6': {
-                "${version_update}" != "default" ? $version_u = $version_update : $version_u = "45"
-                "${version_build}" != "default" ? $version_b = $version_build : $version_b = "06"
+                if ("${version_update}" != "default"){
+                    $version_u = $version_update
+                } else {
+                    $version_u = "45"
+                }
+                if ("${version_build}" != "default"){
+                    $version_b = $version_build
+                } else {
+                    $version_b = "06"
+                }
                 $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/6u45-b06/jdk-6u45-linux-${plat_filename}.bin"
                 $java_home = "${install_dir}/jdk1.6.0_45"
             }
