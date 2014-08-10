@@ -75,12 +75,13 @@ class jdk_oracle(
             notify { 'Using local cache for oracle java': }
             file { "${install_dir}/${installerFilename}":
                 source  => "puppet:///modules/jdk_oracle/${installerFilename}",
+                require => File["${install_dir}"],
             }
             exec { 'get_jdk_installer':
                 cwd     => $install_dir,
                 creates => "${install_dir}/jdk_from_cache",
                 command => 'touch jdk_from_cache',
-                require => File["${install_dir}/${installerFilename}"],
+                require => [ File["${install_dir}"], File["${install_dir}/jdk-${version}-linux-x64.tar.gz"]],
             }
         } else {
             exec { 'get_jdk_installer':
@@ -89,6 +90,10 @@ class jdk_oracle(
                 command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
                 timeout => 600,
                 require => Package['wget'],
+            }
+
+            file { "${install_dir}":
+                ensure  => "directory",
             }
             file { "${install_dir}/${installerFilename}":
                 mode    => '0755',
