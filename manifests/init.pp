@@ -85,7 +85,7 @@ class jdk_oracle(
         if ($version_build != 'default'){
           $version_b = $version_build
         } else {
-          $version_u = $default_7_build
+          $version_b = $default_7_build
         }
         $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
@@ -99,7 +99,7 @@ class jdk_oracle(
         if ($version_build != 'default'){
           $version_b = $version_build
         } else {
-          $version_u = $default_6_build
+          $version_b = $default_6_build
         }
         $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.bin"
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
