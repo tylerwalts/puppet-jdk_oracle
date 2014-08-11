@@ -1,7 +1,7 @@
 puppet-jdk_oracle
 =================
 
-Puppet module to install a JDK from oracle using wget.
+Puppet module to automate fetching and installing the Oracle JDK.
 
 [![Build Status](https://travis-ci.org/tylerwalts/puppet-jdk_oracle.png?branch=master)](https://travis-ci.org/tylerwalts/puppet-jdk_oracle)
 
@@ -16,9 +16,10 @@ This approach was inspired by: http://stackoverflow.com/questions/10268583/how-t
 
 Currently Supported:
 *  RedHat Family (RedHat, Fedora, CentOS)
+*  Debian Family (Ubuntu)
 *  Java 6, 7, 8
 
-*  This may work on other linux flavors but more testing is needed.  Please seend feedback!
+*  This may work on other linux flavors but more testing is needed.  Please send feedback!
 
 Installation:
 =============
@@ -83,7 +84,11 @@ Parameters:
 
 * version
     *  Java Version to install
-*  java_install_dir
+* version_update
+    *  Java Version update to install
+* version_build
+    *  Java Version build to install
+*  install_dir
     *  Java Installation Directory
 *  use_cache
     *  Optionally host the installer file locally instead of fetching it each time, for faster dev & test
