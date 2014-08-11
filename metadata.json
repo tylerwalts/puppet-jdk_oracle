@@ -1,0 +1,26 @@
+{
+  "name": "tylerwalts-jdk_oracle",
+  "version": "1.3.1",
+  "author": "tylerwalts",
+  "license": "Licensed under (Apache 2.0)",
+  "summary": "Module for automating Oracle JDK download and installation",
+  "source": "https://github.com/tylerwalts/puppet-jdk_oracle",
+  "project_page": "(https://github.com/tylerwalts/puppet-jdk_oracle)",
+  "issues_url": "https://github.com/tylerwalts/puppet-jdk_oracle/issues",
+  "tags": ["java", "oracle", "jdk"],
+  "operatingsystem_support": [
+    {
+    "operatingsystem":"RedHat",
+    "operatingsystemrelease":[ "5.0", "6.0" ]
+    },
+    {
+    "operatingsystem":"Amazon",
+    "operatingsystemrelease":[ "2013", "2014" ]
+    },
+    {
+    "operatingsystem": "Ubuntu",
+    "operatingsystemrelease": [ "13.10", "12.04", "10.04" ]
+    }
+   ]
+  "dependencies": [ ]
+}
