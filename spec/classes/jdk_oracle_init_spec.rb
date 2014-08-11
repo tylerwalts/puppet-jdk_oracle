@@ -12,12 +12,10 @@ describe 'jdk_oracle', :type => 'class' do
 
     context 'with default parameters' do
       it {
-        is_expected.to contain_exec( 'get_jdk_installer').with_creates("/opt/jdk-8u${::jdk_oracle::default_8_update}-linux-x64.tar.gz")
-        is_expected.to contain_file ("/opt/jdk-8u${::jdk_oracle::default_8_update}-linux-x64.tar.gz")
-        is_expected.to contain_exec('extract_jdk').with_creates("/opt/jdk1.8.0_${::jdk_oracle::default_8_update}")
+        is_expected.to contain_exec( 'get_jdk_installer')
+        is_expected.to contain_exec('extract_jdk')
         is_expected.to contain_file('/etc/alternatives/java').with({
           :ensure  => 'link',
-          :target  => "/opt/jdk1.8.0_${::jdk_oracle::default_8_update}/bin/java",
         })
         is_expected.to contain_file('/opt/jdk-8').with({
           :ensure  => 'link',
@@ -31,8 +29,8 @@ describe 'jdk_oracle', :type => 'class' do
       } end
 
       it {
-        is_expected.to contain_file("/opt/jdk-6u${::jdk_oracle::default_6_update}-linux-x64.bin")
-        is_expected.to contain_exec('extract_jdk').with_creates("/opt/jdk1.6.0_${::jdk_oracle::default_6_update}")
+        is_expected.to contain_exec( 'get_jdk_installer')
+        is_expected.to contain_exec('extract_jdk')
         is_expected.to contain_file('/opt/jdk-6').with({
           :ensure  => 'link',
         })
@@ -45,12 +43,10 @@ describe 'jdk_oracle', :type => 'class' do
       } end
 
       it {
-        is_expected.to contain_exec( 'get_jdk_installer').with_creates("/opt/jdk-7u${::jdk_oracle::default_7_update}-linux-x64.tar.gz")
-        is_expected.to contain_file ("/opt/jdk-7u${::jdk_oracle::default_7_update}-linux-x64.tar.gz")
-        is_expected.to contain_exec('extract_jdk').with_creates("/opt/jdk1.7.0_${::jdk_oracle::default_7_update}")
+        is_expected.to contain_exec( 'get_jdk_installer')
+        is_expected.to contain_exec('extract_jdk')
         is_expected.to contain_file('/etc/alternatives/java').with({
           :ensure  => 'link',
-          :target  => "/opt/jdk1.7.0_${::jdk_oracle::default_7_update}/bin/java",
         })
         is_expected.to contain_file('/opt/jdk-7').with({
           :ensure  => 'link',
@@ -65,8 +61,8 @@ describe 'jdk_oracle', :type => 'class' do
       } end
 
       it {
-        is_expected.to contain_file("/my/path/jdk-6u${::jdk_oracle::default_6_update}-linux-x64.bin")
-        is_expected.to contain_exec('extract_jdk').with_creates("/my/path/jdk1.6.0_${::jdk_oracle::default_6_update}")
+        is_expected.to contain_file("/my/path/jdk-6u45-linux-x64.bin")
+        is_expected.to contain_exec('extract_jdk')
       }
     end
 
@@ -76,8 +72,8 @@ describe 'jdk_oracle', :type => 'class' do
       } end
 
       it {
-        is_expected.to contain_file('/opt/jdk-8u${::jdk_oracle::default_8_update}-linux-x64.tar.gz').with({
-          :source => 'puppet:///modules/jdk_oracle/jdk-7u${::jdk_oracle::default_8_update}-linux-x64.tar.gz',
+        is_expected.to contain_file('/opt/jdk-8u11-linux-x64.tar.gz').with({
+          :source => 'puppet:///modules/jdk_oracle/jdk-8u11-linux-x64.tar.gz',
         })
       }
     end
