@@ -40,6 +40,7 @@ class jdk_oracle(
   $version_build  = hiera('jdk_oracle::version_build',  'default' ),
   $install_dir    = hiera('jdk_oracle::install_dir',    '/opt' ),
   $use_cache      = hiera('jdk_oracle::use_cache',      false ),
+  $cache_source   = 'puppet:///modules/jdk_oracle/',
   $platform       = hiera('jdk_oracle::platform',       'x64' ),
   $ensure         = 'installed'
   ) {
@@ -120,7 +121,7 @@ class jdk_oracle(
     if ( $use_cache ){
       notify { 'Using local cache for oracle java': }
       file { "${install_dir}/${installerFilename}":
-        source  => "puppet:///modules/jdk_oracle/${installerFilename}",
+        source  => "${cache_source}${installerFilename}",
         require => File["${install_dir}"],
       } ->
       exec { 'get_jdk_installer':
