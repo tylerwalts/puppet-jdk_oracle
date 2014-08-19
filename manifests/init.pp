@@ -16,6 +16,14 @@
 #   String.  Java Version build to install
 #   Defaults to <tt>Defaults based on major version</tt>.
 #
+# [*version_update*]
+#   String.  Java Version Update to install
+#   Defaults to <tt>Defaults based on major version</tt>.
+#
+# [*version_build*]
+#   String.  Java Version build to install
+#   Defaults to <tt>Defaults based on major version</tt>.
+#
 # [* java_install_dir *]
 #   String.  Java Installation Directory
 #   Defaults to <tt>/opt</tt>.
