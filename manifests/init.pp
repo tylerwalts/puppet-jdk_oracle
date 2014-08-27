@@ -6,7 +6,7 @@
 #
 # [*version*]
 #   String.  Java Version to install
-#   Defaults to <tt>7</tt>.
+#   Defaults to <tt>8</tt>.
 #
 # [*version_update*]
 #   String.  Java Version Update to install
