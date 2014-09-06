@@ -206,9 +206,11 @@ class jdk_oracle(
       Debian:  {
         exec { "/usr/sbin/update-alternatives --install /usr/bin/java java ${java_home}/bin/java 20000":
           require => Exec['extract_jdk'],
+          unless => "test $(readlink /etc/alternatives/java) = '${java_home}/bin/java'",
         }
         exec { "/usr/sbin/update-alternatives --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
           require => Exec['extract_jdk'],
+          unless => "test $(/bin/readlink /etc/alternatives/javac) = '${java_home}/bin/javac'",
         }
         augeas { 'environment':
           context => '/files/etc/environment',
