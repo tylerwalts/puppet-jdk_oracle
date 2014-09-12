@@ -204,13 +204,19 @@ class jdk_oracle(
         }
       }
       Debian:  {
-        exec { "/usr/sbin/update-alternatives --install /usr/bin/java java ${java_home}/bin/java 20000":
-          require => Exec['extract_jdk'],
-          unless => "test $(readlink /etc/alternatives/java) = '${java_home}/bin/java'",
+        #Accommodate variations in default install locations for some variants of Debian  
+        case $::lsbdistdescription {
+          'Ubuntu 14.04 LTS': { $path_to_updatealternatives_tool = '/usr/bin/update-alternatives' }
+          default: { $path_to_updatealternatives_tool = '/usr/sbin/update-alternatives' }
         }
-        exec { "/usr/sbin/update-alternatives --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
+        
+        exec { "${path_to_updatealternatives_tool} --install /usr/bin/java java ${java_home}/bin/java 20000":
           require => Exec['extract_jdk'],
-          unless => "test $(/bin/readlink /etc/alternatives/javac) = '${java_home}/bin/javac'",
+          unless  => "test $(readlink /etc/alternatives/java) = '${java_home}/bin/java'",
+        }
+        exec { "${path_to_updatealternatives_tool} --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
+          require => Exec['extract_jdk'],
+          unless  => "test $(/bin/readlink /etc/alternatives/javac) = '${java_home}/bin/javac'",
         }
         augeas { 'environment':
           context => '/files/etc/environment',
