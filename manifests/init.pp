@@ -21,7 +21,7 @@
 #   Defaults to <tt>/opt</tt>.
 #
 # [* use_cache *]
-#   String.  Optionally host the installer file locally instead of fetching it each time (for faster dev & test)
+#   Boolean.  Optionally host the installer file locally instead of fetching it each time (for faster dev & test)
 #   The puppet cache flag is for faster local vagrant development, to
 #   locally host the tarball from oracle instead of fetching it each time.
 #   Defaults to <tt>false</tt>.
@@ -29,6 +29,10 @@
 # [* platform *]
 #   String.  The platform to use
 #   Defaults to <tt>x64</tt>.
+#
+# [* default_java *]
+#   Boolean.  If the installed java version is linked as the default java, javac etc...
+#   Defaults to <tt>true</tt>.
 #
 # [* ensure *]
 #   String.  Specifies if jdk should be installed or absent
@@ -42,6 +46,7 @@ class jdk_oracle(
   $use_cache      = hiera('jdk_oracle::use_cache',      false ),
   $cache_source   = 'puppet:///modules/jdk_oracle/',
   $platform       = hiera('jdk_oracle::platform',       'x64' ),
+  $default_java   = hiera('jdk_oracle::default_java',   true ),
   $ensure         = 'installed'
   ) {
 
@@ -172,25 +177,27 @@ class jdk_oracle(
     # Set links depending on osfamily or operating system fact
     case $::osfamily {
       RedHat, Linux: {
-        file { '/etc/alternatives/java':
-          ensure  => link,
-          target  => "${java_home}/bin/java",
-          require => Exec['extract_jdk'],
-        }
-        file { '/etc/alternatives/javac':
-          ensure  => link,
-          target  => "${java_home}/bin/javac",
-          require => Exec['extract_jdk'],
-        }
-        file { '/usr/sbin/java':
-          ensure  => link,
-          target  => '/etc/alternatives/java',
-          require => File['/etc/alternatives/java'],
-        }
-        file { '/usr/sbin/javac':
-          ensure  => link,
-          target  => '/etc/alternatives/javac',
-          require => File['/etc/alternatives/javac'],
+        if ( $default_java ) {
+          file { '/etc/alternatives/java':
+            ensure  => link,
+            target  => "${java_home}/bin/java",
+            require => Exec['extract_jdk'],
+          }
+          file { '/etc/alternatives/javac':
+            ensure  => link,
+            target  => "${java_home}/bin/javac",
+            require => Exec['extract_jdk'],
+          }
+          file { '/usr/sbin/java':
+            ensure  => link,
+            target  => '/etc/alternatives/java',
+            require => File['/etc/alternatives/java'],
+          }
+          file { '/usr/sbin/javac':
+            ensure  => link,
+            target  => '/etc/alternatives/javac',
+            require => File['/etc/alternatives/javac'],
+          }
         }
         file { "${install_dir}/java_home":
           ensure  => link,
@@ -205,33 +212,37 @@ class jdk_oracle(
       }
       Debian:  {
         #Accommodate variations in default install locations for some variants of Debian  
-        case $::lsbdistdescription {
-          'Ubuntu 14.04 LTS': { $path_to_updatealternatives_tool = '/usr/bin/update-alternatives' }
-          default: { $path_to_updatealternatives_tool = '/usr/sbin/update-alternatives' }
+        $path_to_updatealternatives_tool = $::lsbdistdescription ? {
+          /Ubuntu 14\.04.*/ => '/usr/bin/update-alternatives',
+          default           => '/usr/sbin/update-alternatives',
         }
         
-        exec { "${path_to_updatealternatives_tool} --install /usr/bin/java java ${java_home}/bin/java 20000":
-          require => Exec['extract_jdk'],
-          unless  => "test $(readlink /etc/alternatives/java) = '${java_home}/bin/java'",
-        }
-        exec { "${path_to_updatealternatives_tool} --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
-          require => Exec['extract_jdk'],
-          unless  => "test $(/bin/readlink /etc/alternatives/javac) = '${java_home}/bin/javac'",
-        }
-        augeas { 'environment':
-          context => '/files/etc/environment',
-          changes => [
-            "set JAVA_HOME ${java_home}",
-          ],
+        if ( $default_java ) {
+          exec { "${path_to_updatealternatives_tool} --install /usr/bin/java java ${java_home}/bin/java 20000":
+            require => Exec['extract_jdk'],
+            unless  => "test $(readlink /etc/alternatives/java) = '${java_home}/bin/java'",
+          }
+          exec { "${path_to_updatealternatives_tool} --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
+            require => Exec['extract_jdk'],
+            unless  => "test $(/bin/readlink /etc/alternatives/javac) = '${java_home}/bin/javac'",
+          }
+          augeas { 'environment':
+            context => '/files/etc/environment',
+            changes => [
+              "set JAVA_HOME ${java_home}",
+            ],
+          }
         }
       }
       Suse: {
-        class { 'jdk_oracle::suse' :
-          version   => $version,
-          version_u => $version_u,
-          version_b => $version_b,
-          java_home => $java_home,
-        }
+	if ( $default_java ) {
+          class { 'jdk_oracle::suse' :
+            version      => $version,
+            version_u    => $version_u,
+            version_b    => $version_b,
+            java_home    => $java_home,
+          }
+	}
       }
 
       default:   { fail('Unsupported OS, implement me?') }
