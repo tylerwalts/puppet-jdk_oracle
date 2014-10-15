@@ -174,6 +174,14 @@ class jdk_oracle(
       }
     }
 
+    # Ensure that files belong to root
+    file {"$java_home":
+      recurse   => true,
+      owner     => root,
+      group     => root,
+      subscribe => Exec['extract_jdk'],
+    }
+
     # Set links depending on osfamily or operating system fact
     case $::osfamily {
       RedHat, Linux: {
