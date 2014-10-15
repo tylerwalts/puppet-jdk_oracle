@@ -124,7 +124,6 @@ class jdk_oracle(
     $installerFilename = inline_template('<%= File.basename(@javaDownloadURI) %>')
 
     if ( $use_cache ){
-      notify { 'Using local cache for oracle java': }
       file { "${install_dir}/${installerFilename}":
         source  => "${cache_source}${installerFilename}",
         require => File["${install_dir}"],
