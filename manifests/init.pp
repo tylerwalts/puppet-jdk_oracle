@@ -115,8 +115,8 @@ class jdk_oracle(
       }
     }
 
-    if ! defined(File["${install_dir}"]) {
-      file { "${install_dir}":
+    if ! defined(File[$install_dir]) {
+      file { $install_dir:
         ensure  => directory,
       }
     }
@@ -126,7 +126,7 @@ class jdk_oracle(
     if ( $use_cache ){
       file { "${install_dir}/${installerFilename}":
         source  => "${cache_source}${installerFilename}",
-        require => File["${install_dir}"],
+        require => File[$install_dir],
       } ->
       exec { 'get_jdk_installer':
         cwd     => $install_dir,
@@ -174,7 +174,7 @@ class jdk_oracle(
     }
 
     # Ensure that files belong to root
-    file {"$java_home":
+    file {$java_home:
       recurse   => true,
       owner     => root,
       group     => root,
@@ -242,14 +242,14 @@ class jdk_oracle(
         }
       }
       Suse: {
-	if ( $default_java ) {
+        if ( $default_java ) {
           class { 'jdk_oracle::suse' :
-            version      => $version,
-            version_u    => $version_u,
-            version_b    => $version_b,
-            java_home    => $java_home,
+            version   => $version,
+            version_u => $version_u,
+            version_b => $version_b,
+            java_home => $java_home,
           }
-	}
+        }
       }
 
       default:   { fail('Unsupported OS, implement me?') }
