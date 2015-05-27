@@ -152,7 +152,7 @@ class jdk_oracle::suse {
   $alt_java = "\
 /usr/sbin/update-alternatives --install /usr/bin/java java ${java_home_loc}/bin/java ${ua_priority} \
  --slave /usr/lib64/jvm/jre jre ${java_home_loc}/jre \
- --slave /usr/lib64/jvm-exports/jre jre_exports /usr/lib64/jvm-exports/${java_home_loc_basename} \
+ --slave /usr/lib64/jvm-exports/jre jre_exports /usr/lib64/jvm-exports/${java_home_basename} \
  --slave /usr/bin/keytool keytool ${java_home_loc}/bin/keytool \
  --slave /usr/bin/orbd orbd ${java_home_loc}/bin/orbd \
  --slave /usr/bin/policytool policytool ${java_home_loc}/bin/policytool \
@@ -178,7 +178,7 @@ class jdk_oracle::suse {
 --slave /usr/bin/jar jar ${java_home_loc}/bin/jar \
 --slave /usr/bin/jarsigner jarsigner ${java_home_loc}/bin/jarsigner \
 --slave /usr/lib64/jvm/java java_sdk ${java_home_loc} \
---slave /usr/lib64/jvm-exports/java java_sdk_exports /usr/lib64/jvm-exports/${java_home_loc_basename} \
+--slave /usr/lib64/jvm-exports/java java_sdk_exports /usr/lib64/jvm-exports/${java_home_basename} \
 --slave /usr/bin/javadoc javadoc ${java_home_loc}/bin/javadoc \
 --slave /usr/bin/javah javah ${java_home_loc}/bin/javah \
 --slave /usr/bin/javap javap ${java_home_loc}/bin/javap \
