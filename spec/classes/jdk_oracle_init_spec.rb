@@ -80,14 +80,4 @@ describe 'jdk_oracle', :type => 'class' do
 
   end
 
-  context 'When deploying on unsupported OS' do
-    let :facts do {
-      :operatingsystem => 'Vista',
-      :osfamily    => 'Windows',
-    }
-    end
-
-    it { expect { subject }.to raise_error Puppet::Error }
-  end
-
 end
