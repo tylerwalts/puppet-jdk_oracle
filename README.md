@@ -110,4 +110,24 @@ site.pp:
 *  ensure
     * Boolean to disable anything from happening (absent/removal not supported yet)
 
+## Contributing:
+
+Feedback and issues are welcome.  The most welcome feedback is a Pull Request.  To do this:
+
+1. Navigate to the source repo, and then Fork it into your account using the button in the top-right.
+1. Clone your fork onto your localhost and make your desired changes.
+1. Run puppet lint.  Travis CI will use command:
+  ```
+  export BUNDLE_GEMFILE=$PWD/.gemfile
+  bundle exec rake lint
+  ```
+1. Run rspec test.  Travis CI will use command:
+  ```
+  bundle exec rake spec SPEC_OPTS=’--format documentation’
+  ```
+1. Test everything again
+1. Commit your changes and push up into your fork in GitHub.
+1. Navigate to your forked repo, then click the green Compare icon in the top-left area of the source window.
+1. Compare it to my branch, then click the Create Pull Request button to make a PR using the diff from your branch.
+1. Validate that the Travis-CI build is passing on your PR before it gets a human review
 
