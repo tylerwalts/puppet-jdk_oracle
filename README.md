@@ -13,22 +13,25 @@ There are several puppet modules available that will help install Oracle JDK, bu
 
 This approach was inspired by: http://stackoverflow.com/questions/10268583/how-to-automate-download-and-instalation-of-java-jdk-on-linux
 
+Supported OS:
+* RedHat Family (RedHat, Fedora, CentOS)
+* Debian Family (Ubuntu)
+* SUSE
 
-Currently Supported:
-*  RedHat Family (RedHat, Fedora, CentOS)
-*  Debian Family (Ubuntu)
-*  SUSE
+Supported Java Versions:
+* Java 6, 7, 8
+* Build versions should be specified as parameters (See below)
 
-*  Java 6, 7, 8
+_This may work on other linux flavors but more testing is needed.  Please send feedback!_
 
-*  This may work on other linux flavors but more testing is needed.  Please send feedback!
+*Reasons you may want to use this module:*
 
-Reasons you may want to use this module:
 1. You do not control or trust your package repository to host the version of Oracle Java that you want.
 1. You want to lock in the version that gets installed.
 1. You want to use Oracle’s CDN to host the binary instead of hosting it yourself.
 
-Reasons why you would not want to use this module:
+*Reasons why you would not want to use this module:*
+
 1. If you want to use package management (.deb, .rpm) instead of extracting a generic archive.
   1. Consider schrepfler’s fork which does RPM without v6:  https://github.com/schrepfler/puppet-jdk_oracle
 1. If you want to rely on your package repository to host the binary, not Oracle.
