@@ -183,7 +183,7 @@ class jdk_oracle(
 
     # Set links depending on osfamily or operating system fact
     case $::osfamily {
-      RedHat, Linux: {
+      'RedHat', 'Linux': {
         if ( $default_java ) {
           file { '/etc/alternatives/java':
             ensure  => link,
@@ -217,7 +217,7 @@ class jdk_oracle(
           require => Exec['extract_jdk'],
         }
       }
-      Debian:  {
+      'Debian':  {
         #Accommodate variations in default install locations for some variants of Debian
         $path_to_updatealternatives_tool = $::lsbdistdescription ? {
           /Ubuntu 14\.04.*/ => '/usr/bin/update-alternatives',
@@ -241,7 +241,7 @@ class jdk_oracle(
           }
         }
       }
-      Suse: {
+      'Suse': {
         if ( $default_java ) {
           class { 'jdk_oracle::suse' :
             version   => $version,
@@ -252,7 +252,7 @@ class jdk_oracle(
         }
       }
 
-      default:   { fail('Unsupported OS, implement me?') }
+      default:   { fail("Unsupported OS: ${::osfamily}.  Implement me?") }
     }
   }
 }
