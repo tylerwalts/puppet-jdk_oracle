@@ -12,8 +12,8 @@ describe 'jdk_oracle', :type => 'class' do
 
     context 'with default parameters' do
       it {
-        is_expected.to contain_exec( 'get_jdk_installer')
-        is_expected.to contain_exec('extract_jdk')
+        is_expected.to contain_exec( 'get_jdk_installer_8')
+        is_expected.to contain_exec('extract_jdk_8')
         is_expected.to contain_file('/etc/alternatives/java').with({
           :ensure  => 'link',
         })
@@ -29,8 +29,8 @@ describe 'jdk_oracle', :type => 'class' do
       } end
 
       it {
-        is_expected.to contain_exec( 'get_jdk_installer')
-        is_expected.to contain_exec('extract_jdk')
+        is_expected.to contain_exec( 'get_jdk_installer_6')
+        is_expected.to contain_exec('extract_jdk_6')
         is_expected.to contain_file('/opt/jdk-6').with({
           :ensure  => 'link',
         })
@@ -43,8 +43,8 @@ describe 'jdk_oracle', :type => 'class' do
       } end
 
       it {
-        is_expected.to contain_exec( 'get_jdk_installer')
-        is_expected.to contain_exec('extract_jdk')
+        is_expected.to contain_exec( 'get_jdk_installer_7')
+        is_expected.to contain_exec('extract_jdk_7')
         is_expected.to contain_file('/etc/alternatives/java').with({
           :ensure  => 'link',
         })
@@ -62,7 +62,7 @@ describe 'jdk_oracle', :type => 'class' do
 
       it {
         is_expected.to contain_file("/my/path/jdk-6u45-linux-x64.bin")
-        is_expected.to contain_exec('extract_jdk')
+        is_expected.to contain_exec('extract_jdk_6')
       }
     end
 
