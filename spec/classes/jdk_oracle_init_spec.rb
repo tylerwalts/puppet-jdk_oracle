@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'jdk_oracle', :type => 'class' do
+describe 'jdk_oracle::package' do
 
 
   context 'When deploying on CentOS' do
