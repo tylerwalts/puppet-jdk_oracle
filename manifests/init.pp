@@ -185,25 +185,19 @@ class jdk_oracle(
     case $::osfamily {
       'RedHat', 'Linux': {
         if ( $default_java ) {
-          file { '/etc/alternatives/java':
-            ensure  => link,
-            target  => "${java_home}/bin/java",
+          $javaBinDir = "${java_home}/bin"
+          exec { 'install-java-alternative':
+            unless  => "alternatives --display java | grep link | grep -o '${javaBinDir}/java'",
+            command => "alternatives --install /usr/bin/java java ${javaBinDir}/java ${version}${version_u}${version_b} --slave /usr/bin/javac javac ${javaBinDir}/javac --slave /usr/bin/jar jar ${javaBinDir}/jar --slave /usr/bin/javadoc javadoc ${javaBinDir}/javadoc --slave /usr/bin/keytool keytool ${javaBinDir}/keytool --slave /usr/bin/orbd orbd ${javaBinDir}/orbd --slave /usr/bin/pack200 pack200 ${javaBinDir}/pack200 --slave /usr/bin/rmid rmid ${javaBinDir}/rmid --slave /usr/bin/rmiregistry rmiregistry ${javaBinDir}/rmiregistry --slave /usr/bin/servertool servertool ${javaBinDir}/servertool --slave /usr/bin/tnameserv tnameserv ${javaBinDir}/tnameserv --slave /usr/bin/unpack200 unpack200 ${javaBinDir}/unpack200 --slave /usr/bin/rmiregistry rmiregistry ${javaBinDir}/rmiregistry",
             require => Exec['extract_jdk'],
+          } -> exec { 'set-java-alternative':
+            unless  => "alternatives --display java | grep link | grep -o '${javaBinDir}/java'",
+            command => "alternatives --set java ${javaBinDir}/java",
           }
-          file { '/etc/alternatives/javac':
-            ensure  => link,
-            target  => "${java_home}/bin/javac",
+          file { '/etc/profile.d/java.sh':
+            ensure  => present,
+            content => "export JAVA_HOME=${java_home}",
             require => Exec['extract_jdk'],
-          }
-          file { '/usr/sbin/java':
-            ensure  => link,
-            target  => '/etc/alternatives/java',
-            require => File['/etc/alternatives/java'],
-          }
-          file { '/usr/sbin/javac':
-            ensure  => link,
-            target  => '/etc/alternatives/javac',
-            require => File['/etc/alternatives/javac'],
           }
         }
         file { "${install_dir}/java_home":
