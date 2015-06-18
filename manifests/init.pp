@@ -195,6 +195,11 @@ class jdk_oracle(
             target  => "${java_home}/bin/javac",
             require => Exec['extract_jdk'],
           }
+          file { '/etc/alternatives/jar':
+            ensure  => link,
+            target  => "${java_home}/bin/jar",
+            require => Exec['extract_jdk'],
+          }
           file { '/usr/sbin/java':
             ensure  => link,
             target  => '/etc/alternatives/java',
@@ -204,6 +209,11 @@ class jdk_oracle(
             ensure  => link,
             target  => '/etc/alternatives/javac',
             require => File['/etc/alternatives/javac'],
+          }
+          file { '/usr/sbin/jar':
+            ensure  => link,
+            target  => '/etc/alternatives/jar',
+            require => File['/etc/alternatives/jar'],
           }
         }
         file { "${install_dir}/java_home":
@@ -232,6 +242,10 @@ class jdk_oracle(
           exec { "${path_to_updatealternatives_tool} --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
             require => Exec['extract_jdk'],
             unless  => "test $(/bin/readlink /etc/alternatives/javac) = '${java_home}/bin/javac'",
+          }
+          exec { "${path_to_updatealternatives_tool} --install /usr/bin/jar jar ${java_home}/bin/jar 20000":
+            require => Exec['extract_jdk'],
+            unless  => "test $(/bin/readlink /etc/alternatives/jar) = '${java_home}/bin/jar'",
           }
           augeas { 'environment':
             context => '/files/etc/environment',
