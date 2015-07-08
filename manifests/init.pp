@@ -86,7 +86,7 @@ class jdk_oracle(
         }
         $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
-        $jceDownloadURI = "http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip"
+        $jceDownloadURI = 'http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip'
       }
       '7': {
         if ($version_update != 'default'){
@@ -259,7 +259,7 @@ class jdk_oracle(
     if ( $jce and $version == '8' ) {
 
       $jceFilename = inline_template('<%= File.basename(@jceDownloadURI) %>')
-      $jce_dir = "UnlimitedJCEPolicyJDK8"
+      $jce_dir = 'UnlimitedJCEPolicyJDK8'
 
       if ( $use_cache ) {
         file { "${install_dir}/${jceFilename}":
@@ -297,7 +297,7 @@ class jdk_oracle(
       file { "${java_home}/jre/lib/security/README.txt":
         ensure  => 'present',
         source  => "${install_dir}/${jce_dir}/README.txt",
-        mode    => 0644,
+        mode    => '0644',
         owner   => 'root',
         group   => 'root',
         require => Exec['extract_jce'],
@@ -306,7 +306,7 @@ class jdk_oracle(
       file { "${java_home}/jre/lib/security/local_policy.jar":
         ensure  => 'present',
         source  => "${install_dir}/${jce_dir}/local_policy.jar",
-        mode    => 0644,
+        mode    => '0644',
         owner   => 'root',
         group   => 'root',
         require => Exec['extract_jce'],
@@ -315,7 +315,7 @@ class jdk_oracle(
       file { "${java_home}/jre/lib/security/US_export_policy.jar":
         ensure  => 'present',
         source  => "${install_dir}/${jce_dir}/US_export_policy.jar",
-        mode    => 0644,
+        mode    => '0644',
         owner   => 'root',
         group   => 'root',
         require => Exec['extract_jce'],
