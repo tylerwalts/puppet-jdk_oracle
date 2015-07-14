@@ -243,12 +243,7 @@ class jdk_oracle(
       }
       'Suse': {
         if ( $default_java ) {
-          class { 'jdk_oracle::suse' :
-            version   => $version,
-            version_u => $version_u,
-            version_b => $version_b,
-            java_home => $java_home,
-          }
+          include 'jdk_oracle::suse'
         }
       }
 
