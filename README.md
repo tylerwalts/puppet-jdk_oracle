@@ -105,9 +105,9 @@ site.pp:
     *  Optionally host the installer file locally instead of fetching it each time, for faster dev & test
 *  platform
     *  The platform to use
+*  jce
+    * Boolean to optionally install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files (Java 8 only)
 *  default_java
     * Boolean to indicate if the installed java version is linked as the default java, javac etc...
 *  ensure
     * Boolean to disable anything from happening (absent/removal not supported yet)
-
-
