@@ -65,7 +65,7 @@ class jdk_oracle (
     cache_source   => $cache_source,
     platform       => $platform,
     jce            => $jce,
-    default_java   => $default_java
+    default_java   => $default_java,
   }
 
   if ! defined(Package['wget']) {
