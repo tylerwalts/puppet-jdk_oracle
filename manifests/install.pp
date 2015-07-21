@@ -40,8 +40,9 @@ define jdk_oracle::package(
         } else {
           $version_b = $default_8_build
         }
-        $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${v$
+        $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
+        $jceDownloadURI = 'http://download.oracle.com/otn-pub/java/jce/8/jce_policy-8.zip'
       }
       '7': {
         if ($version_update != 'default'){
@@ -54,7 +55,7 @@ define jdk_oracle::package(
         } else {
           $version_b = $default_7_build
         }
-        $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${v$
+        $javaDownloadURI = "http://download.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
       }
       '6': {
@@ -68,7 +69,7 @@ define jdk_oracle::package(
         } else {
           $version_b = $default_6_build
         }
-        $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b$$
+        $javaDownloadURI = "https://edelivery.oracle.com/otn-pub/java/jdk/${version}u${version_u}-b${version_b}/jdk-${version}u${version_u}-linux-${plat_filename}.bin"
         $java_home = "${install_dir}/jdk1.${version}.0_${version_u}"
       }
       default: {
@@ -98,7 +99,7 @@ define jdk_oracle::package(
       exec { "get_jdk_installer_${version}":
         cwd     => $install_dir,
         creates => "${install_dir}/${installerFilename}",
-        command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2$
+        command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
         timeout => 600,
         require => Package['wget'],
       }
@@ -144,7 +145,7 @@ define jdk_oracle::package(
 
     # Set links depending on osfamily or operating system fact
     case $::osfamily {
-      'RedHat', Linux: {
+      'RedHat', 'Linux': {
         if ( $default_java ) {
           file { '/etc/alternatives/java':
             ensure  => link,
@@ -156,6 +157,11 @@ define jdk_oracle::package(
             target  => "${java_home}/bin/javac",
             require => Exec["extract_jdk_${version}"],
           }
+          file { '/etc/alternatives/jar':
+            ensure  => link,
+            target  => "${java_home}/bin/jar",
+            require => Exec["extract_jdk_${version}"],
+          }
           file { '/usr/sbin/java':
             ensure  => link,
             target  => '/etc/alternatives/java',
@@ -165,6 +171,11 @@ define jdk_oracle::package(
             ensure  => link,
             target  => '/etc/alternatives/javac',
             require => File['/etc/alternatives/javac'],
+          }
+          file { '/usr/sbin/jar':
+            ensure  => link,
+            target  => '/etc/alternatives/jar',
+            require => File['/etc/alternatives/jar'],
           }
         }
         if ( $create_symlink ) {
@@ -180,7 +191,7 @@ define jdk_oracle::package(
           }
         }
       }
-      Debian:  {
+      'Debian':  {
         #Accommodate variations in default install locations for some variants of Debian
         $path_to_updatealternatives_tool = $::lsbdistdescription ? {
           /Ubuntu 14\.04.*/ => '/usr/bin/update-alternatives',
@@ -188,13 +199,17 @@ define jdk_oracle::package(
         }
 
         if ( $default_java ) {
-          exec { "${path_to_updatealternatives_tool} --install /usr/bin/java java ${java_home}/bin/j$
+          exec { "${path_to_updatealternatives_tool} --install /usr/bin/java java ${java_home}/bin/java 20000":
             require => Exec["extract_jdk_${version}"],
             unless  => "test $(readlink /etc/alternatives/java) = '${java_home}/bin/java'",
           }
-          exec { "${path_to_updatealternatives_tool} --install /usr/bin/javac javac ${java_home}/bin$
+          exec { "${path_to_updatealternatives_tool} --install /usr/bin/javac javac ${java_home}/bin/javac 20000":
             require => Exec["extract_jdk_${version}"],
             unless  => "test $(/bin/readlink /etc/alternatives/javac) = '${java_home}/bin/javac'",
+          }
+          exec { "${path_to_updatealternatives_tool} --install /usr/bin/jar jar ${java_home}/bin/jar 20000":
+            require => Exec["extract_jdk_${version}"],
+            unless  => "test $(/bin/readlink /etc/alternatives/jar) = '${java_home}/bin/jar'",
           }
           augeas { 'environment':
             context => '/files/etc/environment',
@@ -204,18 +219,82 @@ define jdk_oracle::package(
           }
         }
       }
-      Suse: {
+      'Suse': {
         if ( $default_java ) {
-          class { 'jdk_oracle::suse' :
-            version   => $version,
-            version_u => $version_u,
-            version_b => $version_b,
-            java_home => $java_home,
-          }
+          include 'jdk_oracle::suse'
         }
       }
 
-      default:   { fail('Unsupported OS, implement me?') }
+      default:   { fail("Unsupported OS: ${::osfamily}.  Implement me?") }
     }
+
+    if ( $jce and $version == '8' ) {
+
+      $jceFilename = inline_template('<%= File.basename(@jceDownloadURI) %>')
+      $jce_dir = 'UnlimitedJCEPolicyJDK8'
+
+      if ( $use_cache ) {
+        file { "${install_dir}/${jceFilename}":
+          source  => "${cache_source}${jceFilename}",
+          require => File[$install_dir],
+        } ->
+        exec { 'get_jce_package':
+          cwd     => $install_dir,
+          creates => "${install_dir}/jce_from_cache",
+          command => 'touch jce_from_cache',
+        }
+      } else {
+        exec { 'get_jce_package':
+          cwd     => $install_dir,
+          creates => "${install_dir}/${jceFilename}",
+          command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${jceDownloadURI}\" -O ${jceFilename}",
+          timeout => 600,
+          require => Package['wget'],
+        }
+
+        file { "${install_dir}/${jceFilename}":
+          mode    => '0755',
+          require => Exec['get_jce_package'],
+        }
+
+      }
+
+      exec { 'extract_jce':
+        cwd     => "${install_dir}/",
+        command => "unzip ${jceFilename}",
+        creates => "${install_dir}/${jce_dir}",
+        require => [ Exec['get_jce_package'], Package['unzip'] ],
+      }
+
+      file { "${java_home}/jre/lib/security/README.txt":
+        ensure  => 'present',
+        source  => "${install_dir}/${jce_dir}/README.txt",
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        require => Exec['extract_jce'],
+      }
+
+      file { "${java_home}/jre/lib/security/local_policy.jar":
+        ensure  => 'present',
+        source  => "${install_dir}/${jce_dir}/local_policy.jar",
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        require => Exec['extract_jce'],
+      }
+
+      file { "${java_home}/jre/lib/security/US_export_policy.jar":
+        ensure  => 'present',
+        source  => "${install_dir}/${jce_dir}/US_export_policy.jar",
+        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        require => Exec['extract_jce'],
+      }
+
+    }
+
   }
+
 }

@@ -54,16 +54,17 @@ class jdk_oracle (
   $default_java   = hiera('jdk_oracle::default_java',   true ),
   $ensure         = 'installed'
   ) {
-    jdk_oracle::package { 'jdk_oracle':
-      version        => $version,
-      version_update => $version_update,
-      version_build  => $version_build,
-      install_dir    => $install_dir,
-      use_cache      => $use_cache,
-      cache_source   => $cache_source,
-      platform       => $platform,
-      default_java   => $default_java,
-      ensure         => $ensure
+
+  jdk_oracle::package { 'jdk_oracle':
+    version        => $version,
+    version_update => $version_update,
+    version_build  => $version_build,
+    install_dir    => $install_dir,
+    use_cache      => $use_cache,
+    cache_source   => $cache_source,
+    platform       => $platform,
+    default_java   => $default_java,
+    ensure         => $ensure
   }
 
   if ! defined(Package['wget']) {
