@@ -56,6 +56,7 @@ class jdk_oracle (
   ) {
 
   jdk_oracle::package { 'jdk_oracle':
+    ensure         => $ensure,
     version        => $version,
     version_update => $version_update,
     version_build  => $version_build,
@@ -64,8 +65,7 @@ class jdk_oracle (
     cache_source   => $cache_source,
     platform       => $platform,
     jce            => $jce,
-    default_java   => $default_java,
-    ensure         => $ensure
+    default_java   => $default_java
   }
 
   if ! defined(Package['wget']) {
