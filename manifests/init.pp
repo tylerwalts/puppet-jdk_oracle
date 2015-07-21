@@ -30,6 +30,10 @@
 #   String.  The platform to use
 #   Defaults to <tt>x64</tt>.
 #
+# [* jce *]
+#   Boolean.  Optionally install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files
+#   Defaults to <tt>false</tt>.
+#
 # [* default_java *]
 #   Boolean.  If the installed java version is linked as the default java, javac etc...
 #   Defaults to <tt>true</tt>.
@@ -46,6 +50,7 @@ class jdk_oracle (
   $use_cache      = hiera('jdk_oracle::use_cache',      false ),
   $cache_source   = 'puppet:///modules/jdk_oracle/',
   $platform       = hiera('jdk_oracle::platform',       'x64' ),
+  $jce            = hiera('jdk_oracle::jce',            false ),
   $default_java   = hiera('jdk_oracle::default_java',   true ),
   $ensure         = 'installed'
   ) {
@@ -60,4 +65,17 @@ class jdk_oracle (
       default_java   => $default_java,
       ensure         => $ensure
   }
+
+  if ! defined(Package['wget']) {
+    package { 'wget':
+      ensure =>  present,
+    }
+  }
+
+  if ! defined(Package['unzip']) {
+    package { 'unzip':
+      ensure =>  present,
+    }
+  }
+
 }
