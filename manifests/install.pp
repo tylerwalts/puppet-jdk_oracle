@@ -1,4 +1,4 @@
-define jdk_oracle::package(
+define jdk_oracle::install(
   $version        = '8',
   $version_update = 'default',
   $version_build  = 'default',
