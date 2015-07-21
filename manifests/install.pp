@@ -6,6 +6,7 @@ define jdk_oracle::install(
   $use_cache      = false,
   $cache_source   = 'puppet:///modules/jdk_oracle/',
   $platform       = 'x64',
+  $jce            = false,
   $default_java   = true,
   $create_symlink = true,
   $ensure         = 'installed'

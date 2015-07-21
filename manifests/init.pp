@@ -63,6 +63,7 @@ class jdk_oracle (
     use_cache      => $use_cache,
     cache_source   => $cache_source,
     platform       => $platform,
+    jce            => $jce,
     default_java   => $default_java,
     ensure         => $ensure
   }
