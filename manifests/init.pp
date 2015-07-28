@@ -42,17 +42,22 @@
 #   String.  Specifies if jdk should be installed or absent
 #   Defaults to <tt>installed</tt>.
 #
+# [* download_timeout *]
+#   Integer.  Timeout for download (wget) in seconds
+#   Defaults to <tt>600</tt> seconds.
+#
 class jdk_oracle(
-  $version        = hiera('jdk_oracle::version',        '8' ),
-  $version_update = hiera('jdk_oracle::version_update', 'default' ),
-  $version_build  = hiera('jdk_oracle::version_build',  'default' ),
-  $install_dir    = hiera('jdk_oracle::install_dir',    '/opt' ),
-  $use_cache      = hiera('jdk_oracle::use_cache',      false ),
-  $cache_source   = 'puppet:///modules/jdk_oracle/',
-  $platform       = hiera('jdk_oracle::platform',       'x64' ),
-  $jce            = hiera('jdk_oracle::jce',            false ),
-  $default_java   = hiera('jdk_oracle::default_java',   true ),
-  $ensure         = 'installed'
+  $version          = hiera('jdk_oracle::version',        '8' ),
+  $version_update   = hiera('jdk_oracle::version_update', 'default' ),
+  $version_build    = hiera('jdk_oracle::version_build',  'default' ),
+  $install_dir      = hiera('jdk_oracle::install_dir',    '/opt' ),
+  $use_cache        = hiera('jdk_oracle::use_cache',      false ),
+  $cache_source     = 'puppet:///modules/jdk_oracle/',
+  $platform         = hiera('jdk_oracle::platform',       'x64' ),
+  $jce              = hiera('jdk_oracle::jce',            false ),
+  $default_java     = hiera('jdk_oracle::default_java',   true ),
+  $ensure           = 'installed',
+  $download_timeout = hiera('jdk_oracle::download_timeout',   600 ),
   ) {
 
   $default_8_update = '11'
@@ -143,8 +148,8 @@ class jdk_oracle(
       exec { 'get_jdk_installer':
         cwd     => $install_dir,
         creates => "${install_dir}/${installerFilename}",
-        command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
-        timeout => 600,
+        command => "wget -c -T ${download_timeout} --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
+        timeout => ${download_timeout},
         require => Package['wget'],
       }
 
