@@ -149,7 +149,7 @@ class jdk_oracle(
         cwd     => $install_dir,
         creates => "${install_dir}/${installerFilename}",
         command => "wget -c -T ${download_timeout} --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
-        timeout => ${download_timeout},
+        timeout => $download_timeout,
         require => Package['wget'],
       }
 
