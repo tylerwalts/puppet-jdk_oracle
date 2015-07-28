@@ -9,7 +9,7 @@
 #   Defaults to <tt>8</tt>.
 #
 # [*version_update*]
-#   String.  Java Version Update to install
+#   String.  Java Version Updatwe to install
 #   Defaults to <tt>Defaults based on major version</tt>.
 #
 # [*version_build*]
@@ -289,8 +289,8 @@ class jdk_oracle(
         exec { 'get_jce_package':
           cwd     => $install_dir,
           creates => "${install_dir}/${jceFilename}",
-          command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${jceDownloadURI}\" -O ${jceFilename}",
-          timeout => 600,
+          command => "wget -c -T ${download_timeout} --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${jceDownloadURI}\" -O ${jceFilename}",
+          timeout => $download_timeout,
           require => Package['wget'],
         }
 
