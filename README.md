@@ -111,3 +111,5 @@ site.pp:
     * Boolean to indicate if the installed java version is linked as the default java, javac etc...
 *  ensure
     * Boolean to disable anything from happening (absent/removal not supported yet)
+*  download_timeout
+    * Integer Timeout for download (wget) in seconds. Default is 600s
