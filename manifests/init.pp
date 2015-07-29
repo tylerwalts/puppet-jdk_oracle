@@ -9,7 +9,7 @@
 #   Defaults to <tt>8</tt>.
 #
 # [*version_update*]
-#   String.  Java Version Updatwe to install
+#   String.  Java Version Update to install
 #   Defaults to <tt>Defaults based on major version</tt>.
 #
 # [*version_build*]
