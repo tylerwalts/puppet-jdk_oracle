@@ -42,6 +42,10 @@
 #   String.  Specifies if jdk should be installed or absent
 #   Defaults to <tt>installed</tt>.
 #
+# [ *timeout * ]
+#   Integer or String. Adjust timeout for various downloads.
+#   Defaults to 600 seconds.
+#
 class jdk_oracle(
   $version        = hiera('jdk_oracle::version',        '8' ),
   $version_update = hiera('jdk_oracle::version_update', 'default' ),
@@ -52,6 +56,7 @@ class jdk_oracle(
   $platform       = hiera('jdk_oracle::platform',       'x64' ),
   $jce            = hiera('jdk_oracle::jce',            false ),
   $default_java   = hiera('jdk_oracle::default_java',   true ),
+  $timeout         = hiera('jdk_oracle::timeout', 600),
   $ensure         = 'installed'
   ) {
 
@@ -144,7 +149,7 @@ class jdk_oracle(
         cwd     => $install_dir,
         creates => "${install_dir}/${installerFilename}",
         command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
-        timeout => 600,
+        timeout => $timeout,
         require => Package['wget'],
       }
 
@@ -285,7 +290,7 @@ class jdk_oracle(
           cwd     => $install_dir,
           creates => "${install_dir}/${jceFilename}",
           command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${jceDownloadURI}\" -O ${jceFilename}",
-          timeout => 600,
+          timeout => $timeout,
           require => Package['wget'],
         }
 
