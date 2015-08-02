@@ -109,5 +109,7 @@ site.pp:
     * Boolean to optionally install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files (Java 8 only)
 *  default_java
     * Boolean to indicate if the installed java version is linked as the default java, javac etc...
+*  timeout
+   * Integer or String. Adjust timeout for various downloads. 
 *  ensure
     * Boolean to disable anything from happening (absent/removal not supported yet)
