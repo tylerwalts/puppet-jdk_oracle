@@ -2,6 +2,7 @@ language: ruby
 rvm:
   - 1.9.3
   - ruby-head
+bundler_args: --without development
 script:
   - "bundle exec rake lint"
   - "bundle exec rake spec SPEC_OPTS='--format documentation'"
@@ -21,4 +22,4 @@ matrix:
 gemfile: .gemfile
 notifications:
   email:
-    - travisci@tylerwalts.com
+    - eurides.baptistella@gmail.com
