@@ -43,7 +43,7 @@
 #   Defaults to <tt>installed</tt>.
 #
 # [* download_timeout *]
-#   Integer.  Timeout for download (wget) in seconds
+#   String.  Timeout for download (wget) in seconds
 #   Defaults to <tt>600</tt> seconds.
 #
 class jdk_oracle(
@@ -57,7 +57,7 @@ class jdk_oracle(
   $jce              = hiera('jdk_oracle::jce',            false ),
   $default_java     = hiera('jdk_oracle::default_java',   true ),
   $ensure           = 'installed',
-  $download_timeout = hiera('jdk_oracle::download_timeout',   600 ),
+  $download_timeout = hiera('jdk_oracle::download_timeout',   '600' ),
   ) {
 
   $default_8_update = '51'
