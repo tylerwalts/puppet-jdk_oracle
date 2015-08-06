@@ -148,8 +148,7 @@ class jdk_oracle(
       exec { 'get_jdk_installer':
         cwd     => $install_dir,
         creates => "${install_dir}/${installerFilename}",
-        command => "wget -c -T ${download_timeout} --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
-        timeout => $download_timeout,
+        command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${javaDownloadURI}\" -O ${installerFilename}",
         require => Package['wget'],
       }
 
@@ -289,8 +288,7 @@ class jdk_oracle(
         exec { 'get_jce_package':
           cwd     => $install_dir,
           creates => "${install_dir}/${jceFilename}",
-          command => "wget -c -T ${download_timeout} --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${jceDownloadURI}\" -O ${jceFilename}",
-          timeout => $download_timeout,
+          command => "wget -c --no-cookies --no-check-certificate --header \"Cookie: gpw_e24=http%3A%2F%2Fwww.oracle.com\" --header \"Cookie: oraclelicense=accept-securebackup-cookie\" \"${jceDownloadURI}\" -O ${jceFilename}",
           require => Package['wget'],
         }
 
