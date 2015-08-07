@@ -55,7 +55,7 @@ class jdk_oracle (
   $ensure         = 'installed'
   ) {
 
-  jdk_oracle::package { 'jdk_oracle':
+  jdk_oracle::install { 'jdk_oracle':
     ensure         => $ensure,
     version        => $version,
     version_update => $version_update,
