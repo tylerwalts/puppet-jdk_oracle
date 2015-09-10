@@ -200,6 +200,7 @@ define jdk_oracle::install(
         }
 
         if ( $default_java ) {
+          # create alternatives configuration for the specified version
           exec { "${path_to_updatealternatives_tool} --install /usr/bin/java java ${java_home}/bin/java 20000":
             require => Exec["extract_jdk_${version}"],
             unless  => "test $(readlink /etc/alternatives/java) = '${java_home}/bin/java'",
@@ -211,6 +212,27 @@ define jdk_oracle::install(
           exec { "${path_to_updatealternatives_tool} --install /usr/bin/jar jar ${java_home}/bin/jar 20000":
             require => Exec["extract_jdk_${version}"],
             unless  => "test $(/bin/readlink /etc/alternatives/jar) = '${java_home}/bin/jar'",
+          }
+          exec { "${path_to_updatealternatives_tool} --install /usr/bin/jstack jstack ${java_home}/bin/jstack 20000":
+            require => Exec["extract_jdk_${version}"],
+            unless  => "test $(/bin/readlink /etc/alternatives/jstack) = '${java_home}/bin/jstack'",
+          }
+          # activate new alternatives configuration (in case of a version change)
+          exec { "${path_to_updatealternatives_tool} --set java ${java_home}/bin/java":
+            require => Exec["${path_to_updatealternatives_tool} --install /usr/bin/java java ${java_home}/bin/java 20000"],
+            onlyif  => "test $(readlink /etc/alternatives/java) != '${java_home}/bin/java'",
+          }
+          exec { "${path_to_updatealternatives_tool} --set javac ${java_home}/bin/javac":
+            require => Exec["${path_to_updatealternatives_tool} --install /usr/bin/javac javac ${java_home}/bin/javac 20000"],
+            onlyif  => "test $(/bin/readlink /etc/alternatives/javac) != '${java_home}/bin/javac'",
+          }
+          exec { "${path_to_updatealternatives_tool} --set jar ${java_home}/bin/jar":
+            require => Exec["${path_to_updatealternatives_tool} --install /usr/bin/jar jar ${java_home}/bin/jar 20000"],
+            onlyif  => "test $(/bin/readlink /etc/alternatives/jar) != '${java_home}/bin/jar'",
+          }
+          exec { "${path_to_updatealternatives_tool} --set jstack ${java_home}/bin/jstack":
+            require => Exec["${path_to_updatealternatives_tool} --install /usr/bin/jstack jstack ${java_home}/bin/jstack 20000"],
+            onlyif  => "test $(/bin/readlink /etc/alternatives/jstack) != '${java_home}/bin/jstack'",
           }
           augeas { 'environment':
             context => '/files/etc/environment',
