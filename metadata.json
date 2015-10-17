@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "author": "tylerwalts",
   "summary": "Module for automating Oracle JDK download and installation",
-  "license": "Apache License, Version 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/tylerwalts/puppet-jdk_oracle",
   "project_page": "https://github.com/tylerwalts/puppet-jdk_oracle",
   "issues_url": "https://github.com/tylerwalts/puppet-jdk_oracle/issues",
