@@ -50,8 +50,8 @@ mod "tylerwalts/jdk_oracle"
 
 From Source:
 ```
-    mod "jdk_oracle",
-        :git => "git://github.com/tylerwalts/puppet-jdk_oracle.git"
+mod "tylerwalts/jdk_oracle",
+    :git => "git://github.com/tylerwalts/puppet-jdk_oracle.git"
 ```
 
 
