@@ -35,6 +35,12 @@
         "12.04",
         "10.04"
       ]
+    },
+    {
+      "operatingsystem": "Mint",
+      "operatingsystemrelease": [
+        "17.2"
+      ]
     }
   ],
   "description": "Module for automating Oracle JDK download and installation, which does not have a dependency on a human download task, file share or centralized architecture design.  It fetches the installer binary from the target server, for the target server.  This approach assumes that automation is more valuable than bandwidth.",

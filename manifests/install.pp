@@ -196,6 +196,7 @@ define jdk_oracle::install(
         #Accommodate variations in default install locations for some variants of Debian
         $path_to_updatealternatives_tool = $::lsbdistdescription ? {
           /Ubuntu 14\.04.*/ => '/usr/bin/update-alternatives',
+          /Linux Mint 17\.*/ => '/usr/bin/update-alternatives',
           default           => '/usr/sbin/update-alternatives',
         }
 
