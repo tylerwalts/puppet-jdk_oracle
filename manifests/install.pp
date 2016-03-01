@@ -181,10 +181,9 @@ define jdk_oracle::install(
           file { '/etc/profile.d/java.sh':
             ensure  => present,
             content => "export JAVA_HOME=${java_home}",
-            require => Exec['extract_jdk'],
+            require => Exec["extract_jdk_${version}"],
           }
         }
-      }
         if ( $create_symlink ) {
           file { "${install_dir}/java_home":
             ensure  => link,
