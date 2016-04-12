@@ -180,7 +180,7 @@ define jdk_oracle::install(
           }
           file { '/etc/profile.d/java.sh':
             ensure  => present,
-            content => "export JAVA_HOME=${java_home}",
+            content => "export JAVA_HOME=${java_home}; PATH=\${PATH}:${java_home}/bin",
             require => Exec["extract_jdk_${version}"],
           }
         }
