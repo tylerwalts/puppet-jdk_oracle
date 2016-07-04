@@ -30,6 +30,10 @@
 #   String.  The platform to use
 #   Defaults to <tt>x64</tt>.
 #
+# [* package *]
+#   String.  Which package to install.  Can be one of the following: jdk, jre, server-jre
+#   Defaults to <tt>jdk</tt>.
+#
 # [* jce *]
 #   Boolean.  Optionally install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files
 #   Defaults to <tt>false</tt>.
@@ -50,6 +54,7 @@ class jdk_oracle (
   $use_cache      = hiera('jdk_oracle::use_cache',      false ),
   $cache_source   = 'puppet:///modules/jdk_oracle/',
   $platform       = hiera('jdk_oracle::platform',       'x64' ),
+  $package        = hiera('jdk_oracle::package',        'jdk' ),
   $jce            = hiera('jdk_oracle::jce',            false ),
   $default_java   = hiera('jdk_oracle::default_java',   true ),
   $ensure         = 'installed'
@@ -64,6 +69,7 @@ class jdk_oracle (
     use_cache      => $use_cache,
     cache_source   => $cache_source,
     platform       => $platform,
+    package        => $package,
     jce            => $jce,
     default_java   => $default_java,
   }
