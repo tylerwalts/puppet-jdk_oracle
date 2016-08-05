@@ -1,3 +1,4 @@
+# lint:ignore:double_quoted_strings lint:ignore:slash_comments
 define jdk_oracle::install(
   $version        = '8',
   $version_update = 'default',
@@ -358,3 +359,4 @@ define jdk_oracle::install(
   }
 
 }
+# lint:endignore
