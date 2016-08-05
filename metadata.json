@@ -1,8 +1,8 @@
 {
   "name": "tylerwalts-jdk_oracle",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": "tylerwalts",
-  "summary": "Module for automating Oracle JDK download and installation",
+  "summary": "Automates Oracle JDK download and installation from tarball (not package)",
   "license": "Apache-2.0",
   "source": "https://github.com/tylerwalts/puppet-jdk_oracle",
   "project_page": "https://github.com/tylerwalts/puppet-jdk_oracle",
@@ -17,7 +17,8 @@
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "5.0",
-        "6.0"
+        "6.0",
+        "7.0"
       ]
     },
     {
@@ -25,7 +26,8 @@
       "operatingsystemrelease": [
         "2013",
         "2014",
-        "2015"
+        "2015",
+        "2016"
       ]
     },
     {
@@ -43,7 +45,7 @@
       ]
     }
   ],
-  "description": "Module for automating Oracle JDK download and installation, which does not have a dependency on a human download task, file share or centralized architecture design.  It fetches the installer binary from the target server, for the target server.  This approach assumes that automation is more valuable than bandwidth.",
+  "description": "Automates the Oracle JDK download and installation from tarball (not package), which does not have a dependency on a human download task, file share or centralized architecture design.  It fetches the installer binary from the target server, for the target server.  This approach assumes that automation is more valuable than bandwidth.",
   "dependencies": [
   
   ]

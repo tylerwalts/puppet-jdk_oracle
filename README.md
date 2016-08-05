@@ -35,26 +35,6 @@ This approach was inspired by: http://stackoverflow.com/questions/10268583/how-t
 1. If you want to rely on your package repository to host the binary, not Oracle.
 1. If your target configuration server does not have access to the Internet.  Assumes the server can pull it.
 
-
-## Installation:
-
-### A) Traditional:
-* Copy this project into your puppet modules path and rename to "jdk_oracle"
-
-### B) Puppet Librarian:
-* Put this in your Puppetfile:
-From Forge:
-```
-mod "tylerwalts/jdk_oracle"
-```
-
-From Source:
-```
-mod "tylerwalts/jdk_oracle",
-    :git => "git://github.com/tylerwalts/puppet-jdk_oracle.git"
-```
-
-
 ## Usage:
 
 ### A)  Traditional:
@@ -85,11 +65,6 @@ config.yaml:
   jdk_oracle::version: "6"
 ```
 
-site.pp:
-```
-    hiera_include("classes", [])
-```
-
 
 ## Parameters:
 
@@ -103,6 +78,8 @@ site.pp:
     *  Java Installation Directory
 *  use_cache
     *  Optionally host the installer file locally instead of fetching it each time, for faster dev & test
+*  cache_source
+    *  Only used if use_cache is set to true.  Defaults to hosting it in the puppet module, but can be any URI.
 *  platform
     *  The platform to use
 *  package
