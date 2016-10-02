@@ -1,5 +1,5 @@
 name    'tylerwalts-jdk_oracle'
-version '1.4.0'
+version '1.5.0'
 source 'https://github.com/tylerwalts/puppet-jdk_oracle'
 author 'tylerwalts'
 license 'Apache License, Version 2.0'
