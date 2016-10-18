@@ -18,20 +18,5 @@ matrix:
   - rvm: default
     sudo: required
     services: docker
-    env: BEAKER_set=centos7 BEAKER_debug=true
+    env: BEAKER_set=debian8 BEAKER_debug=true
     script: bundle exec rake beaker
-  - rvm: default
-    sudo: required
-    services: docker
-    env: BEAKER_set=jessie BEAKER_debug=true
-    script: bundle exec rake beaker
-  - rvm: default
-    sudo: required
-    services: docker
-    env: BEAKER_set=trusty BEAKER_debug=true
-    script: bundle exec rake beaker
-  - rvm: default
-    sudo: required
-    services: docker
-    env: BEAKER_set=xenial BEAKER_debug=true
-script: bundle exec rake beaker

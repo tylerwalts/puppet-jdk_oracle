@@ -28,7 +28,7 @@ end
 
 desc 'Run metadata_lint, lint, validate, and spec tests.'
 task :test do
-  [:metadata_lint, :lint, :validate, :spec, :beaker].each do |test|
+  [:metadata_lint, :lint, :validate, :spec].each do |test|
     Rake::Task[test].invoke
   end
 end
