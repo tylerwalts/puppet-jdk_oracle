@@ -27,7 +27,7 @@ describe 'jre_oracle with default parameters plus another jre8 instance' do
     else
       str_manifest = <<-EOS
         class { 'jdk_oracle':
-          package    => 'jre',
+          package => 'jre',
         }
         # setup a jdk instance to compile the jce tester
         jdk_oracle::install { 'jdk8u102':

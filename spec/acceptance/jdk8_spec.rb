@@ -7,7 +7,7 @@ describe 'jdk_oracle with default parameters plus another jdk8 instance' do
     if node['proxyurl']
       str_manifest = <<-EOS
         class { 'jdk_oracle':
-          proxy_host     => '#{node['proxyurl']}'
+          proxy_host => '#{node['proxyurl']}'
         }
         jdk_oracle::install { 'jdk8u102':
           version_update => '102',

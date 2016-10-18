@@ -19,7 +19,7 @@ describe 'jdk_oracle to install default jdk7 with JCE' do
     else
       str_manifest = <<-EOS
         class { 'jdk_oracle':
-          proxy_host     => ,
+          proxy_host     => null,
           version        => '7',
           version_update => '67',
           version_build  => '01',
