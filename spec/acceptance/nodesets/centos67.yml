@@ -13,7 +13,7 @@ HOSTS:
       - 'wget http://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm'
       - 'rpm -Uvh puppetlabs-release-pc1-el-6.noarch.rpm'
       - 'yum -y install puppet-agent'
-    proxyurl: ~
+    #proxyurl: ~
 CONFIG:
   type: foss
   log_level: info
