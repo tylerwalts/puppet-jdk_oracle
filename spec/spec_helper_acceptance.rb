@@ -8,9 +8,6 @@ RSpec.configure do |c|
   c.formatter = :documentation
 
   c.before :suite do
-    # fetch docker host ip for proxy stuff
-    dockerip = `ifconfig docker0`.split("\n")[1].split(":")[1].split()[0]
-
     # Install module to all hosts
     hosts.each do |host|
       # install_puppet_agent_on(host, { :puppet_gem_version => '3.8.7', :default_action => 'gem_install'})

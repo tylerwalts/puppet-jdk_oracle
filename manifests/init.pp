@@ -58,7 +58,7 @@ class jdk_oracle (
   $jce            = hiera('jdk_oracle::jce',            false ),
   $default_java   = hiera('jdk_oracle::default_java',   false ),
   $download_url   = hiera('jdk_oracle::download_url',   'http://download.oracle.com/otn-pub/java'),
-  $proxy_host     = hiera('jdk_oracle::proxy_host',     undef ),
+  $proxy_host     = hiera('jdk_oracle::proxy_host',     false ),
   $ensure         = 'installed'
   ) {
 
@@ -76,16 +76,7 @@ class jdk_oracle (
     default_java   => $default_java,
   }
 
-  if ! defined(Package['curl']) {
-    package { 'curl':
-      ensure =>  present,
-    }
-  }
-
-  if ! defined(Package['unzip']) {
-    package { 'unzip':
-      ensure =>  present,
-    }
-  }
+  ensure_resources('Package', { 'curl' => { ensure => present}})
+  ensure_resources('Package', { 'unzip' => { ensure => present}})
 
 }

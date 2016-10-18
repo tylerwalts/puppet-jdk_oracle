@@ -4,26 +4,46 @@ require 'spec_helper_acceptance'
 
 describe 'jdk_oracle to install default jdk7 with JCE' do
   hosts.each do |node|
+    if node['proxyurl']
+      str_manifest = <<-EOS
+        class { 'jdk_oracle':
+          proxy_host     => '#{node['proxyurl']}',
+          version        => '7',
+          version_update => '67',
+          version_build  => '01',
+          default_java   => true,
+          install_dir    => '/usr/java',
+          jce            => true
+        }
+        EOS
+    else
+      str_manifest = <<-EOS
+        class { 'jdk_oracle':
+          proxy_host     => ,
+          version        => '7',
+          version_update => '67',
+          version_build  => '01',
+          default_java   => true,
+          install_dir    => '/usr/java',
+          jce            => true
+        }
+        EOS
+    end
     #  puts full_manifest
-    str_manifest = <<-EOS
-class { 'jdk_oracle':
-  version        => '7',
-  version_update => '67',
-  version_build  => '01',
-  default_java   => true,
-  install_dir    => '/usr/java',
-  jce            => true
-}
-EOS
     let(:manifest) {
       str_manifest
     }
 
     it 'should run without errors' do
-      result = apply_manifest_on(node, manifest, :catch_failures => true, :debug => false)
+      result = apply_manifest_on(node, manifest, :catch_failures => true, :debug => true)
       expect(result.exit_code).to eq 2
     end
 
+    if node['platform'] =~ /debian/
+      alternatives_cmd = 'update-alternatives'
+    else
+      alternatives_cmd = 'alternatives'
+    end
     # default install with no args
 
     context'should install jdk7u67 in /usr/java' do
@@ -39,14 +59,16 @@ EOS
           it { should_not exist }
         end
       end
+
       it 'Should set a new default alternatives' do
-        show_result = shell('alternatives --display java | grep currently | awk \'{ print $5 }\'')
+        show_result = shell("#{alternatives_cmd} --display java | grep currently | awk '{ print $5 }'")
         expect(show_result.stdout).to match /\/usr\/java\/jdk1.7.0_67\/bin\/java/
       end
       it 'Should setup a new alternatives option' do
-        show_result = shell('alternatives --display java | grep ^/usr/java/jdk1.7.0_67/bin/java')
+        show_result = shell("#{alternatives_cmd} --display java | grep ^/usr/java/jdk1.7.0_67/bin/java")
         expect(show_result.stdout).to match /\/usr\/java\/jdk1.7.0_67\/bin\/java/
       end
+
       describe 'Java profile.d file should be set to newly default java installation' do
         describe file('/etc/profile.d/java.sh') do
           it { should exist }

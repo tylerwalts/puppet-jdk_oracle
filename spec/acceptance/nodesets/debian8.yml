@@ -2,14 +2,14 @@
 HOSTS:
   debian8:
     platform: debian-8-amd64
-    image: debian:8
+    image: debian:pmu
     hypervisor: docker
     docker_preserve_image: true
     roles:
       - agent
       - default
     docker_image_commands:
-      - 'apt-get update && apt-get -y install puppet'
+      - 'apt-get update && apt-get -y install puppet curl'
 CONFIG:
   type: foss
   log_level: info

@@ -4,17 +4,34 @@ require 'spec_helper_acceptance'
 
 describe 'jdk_oracle with default parameters plus another jdk8 instance' do
   hosts.each do |node|
+    if node['proxyurl']
+      str_manifest = <<-EOS
+        class { 'jdk_oracle':
+          proxy_host     => '#{node['proxyurl']}'
+        }
+        jdk_oracle::install { 'jdk8u102':
+          version_update => '102',
+          version_build  => '14',
+          default_java   => true,
+          install_dir    => '/usr/java',
+          jce            => true
+        }
+        EOS
+    else
+      str_manifest = <<-EOS
+        class { 'jdk_oracle':
+          proxy_host     => undef,
+        }
+        jdk_oracle::install { 'jdk8u102':
+          version_update => '102',
+          version_build  => '14',
+          default_java   => true,
+          install_dir    => '/usr/java',
+          jce            => true
+        }
+        EOS
+    end
     #  puts full_manifest
-    str_manifest = <<-EOS
-class { 'jdk_oracle': }
-jdk_oracle::install { 'jdk8u102':
-  version_update => '102',
-  version_build  => '14',
-  default_java   => true,
-  install_dir    => '/usr/java',
-  jce            => true
-  }
-EOS
     let(:manifest) {
       str_manifest
     }
@@ -24,6 +41,11 @@ EOS
       expect(result.exit_code).to eq 2
     end
 
+    if node['platform'] =~ /debian/
+      alternatives_cmd = 'update-alternatives'
+    else
+      alternatives_cmd = 'alternatives'
+    end
     # default install with no args
 
     context'should install jdk8u11 in /opt' do
@@ -33,12 +55,13 @@ EOS
           it { should be_grouped_into 'root' }
           it { should be_readable.by('others') }
       end
+
       it 'should not mess up default alternatives' do
-        show_result = shell('alternatives --display java | grep currently | awk \'{ print $5 }\'')
+        show_result = shell("#{alternatives_cmd} --display java | grep currently | awk \'{ print $5 }\'")
         expect(show_result.stdout).not_to match /\/opt\/jdk1.8.0_11\/bin\/java/
       end
       it 'Should define a new alternatives for java' do
-        show_result = shell('alternatives --display java | grep ^/opt/jdk1.8.0_11/bin/java')
+        show_result = shell("#{alternatives_cmd} --display java | grep ^/opt/jdk1.8.0_11/bin/java")
         expect(show_result.stdout).to match /\/opt\/jdk1.8.0_11\/bin\/java/
       end
       describe 'Source file should be removed' do
@@ -85,11 +108,11 @@ EOF')
         end
       end
       it 'Should set a new default alternatives' do
-        show_result = shell('alternatives --display java | grep currently | awk \'{ print $5 }\'')
+        show_result = shell("#{alternatives_cmd} --display java | grep currently | awk '{ print $5 }'")
         expect(show_result.stdout).to match /\/usr\/java\/jdk1.8.0_102\/bin\/java/
       end
       it 'Should setup a new alternatives option' do
-        show_result = shell('alternatives --display java | grep ^/usr/java/jdk1.8.0_102/bin/java')
+        show_result = shell("#{alternatives_cmd} --display java | grep ^/usr/java/jdk1.8.0_102/bin/java")
         expect(show_result.stdout).to match /\/usr\/java\/jdk1.8.0_102\/bin\/java/
       end
       describe 'Java profile.d file should be set to newly default java installation' do
