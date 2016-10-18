@@ -4,16 +4,9 @@ require 'spec_helper_acceptance'
 
 describe 'jdk_oracle with default parameters plus another jdk8 instance' do
   hosts.each do |node|
-    if node.has_key?('proxyurl')
-      set_proxy = node['proxyurl']
-    else
-      set_proxy = nil
-    end
     #  puts full_manifest
     str_manifest = <<-EOS
-class { 'jdk_oracle':
-  proxy_host => '#{set_proxy}'
-}
+class { 'jdk_oracle': }
 jdk_oracle::install { 'jdk8u102':
   version_update => '102',
   version_build  => '14',

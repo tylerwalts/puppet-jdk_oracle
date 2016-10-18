@@ -23,7 +23,6 @@ HOSTS:
         - agent
       docker_image_commands:
         - 'apt-get update && apt-get -y install puppet'
-      #proxyurl: ~
 CONFIG:
   type: foss
   log_level: info

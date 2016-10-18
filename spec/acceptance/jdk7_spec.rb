@@ -4,15 +4,9 @@ require 'spec_helper_acceptance'
 
 describe 'jdk_oracle to install default jdk7 with JCE' do
   hosts.each do |node|
-    if node.has_key?('proxyurl')
-      set_proxy = node['proxyurl']
-    else
-      set_proxy = nil
-    end
     #  puts full_manifest
     str_manifest = <<-EOS
 class { 'jdk_oracle':
-  proxy_host => '#{set_proxy}',
   version        => '7',
   version_update => '67',
   version_build  => '01',

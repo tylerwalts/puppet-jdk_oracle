@@ -4,11 +4,9 @@ require 'spec_helper_acceptance'
 
 describe 'jre_oracle with default parameters plus another jre8 instance' do
   hosts.each do |node|
-    set_proxy = node['proxyurl'] || nil
     #  puts full_manifest
     str_manifest = <<-EOS
 class { 'jdk_oracle':
-  proxy_host => '#{set_proxy}',
   package    => 'jre'
 }
 # setup a jdk instance to compile the jce tester
