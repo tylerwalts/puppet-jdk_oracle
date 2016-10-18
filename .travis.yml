@@ -1,13 +1,37 @@
 language: ruby
 rvm:
-  - 1.9.3
-  - ruby-head
-script:
-  - "bundle exec rake lint"
-  - "bundle exec rake spec SPEC_OPTS='--format documentation'"
-  - "bundle exec rspec/acceptance"
+- 2.1.1
+cache: bundler
+bundler_args: "--jobs=3 --retry=3 --without=development"
+before_script: bundle exec puppet --version
+script: bundle exec rake test
+env:
+- PUPPET_VERSION='~> 3.8.0'
+- PUPPET_VERSION='~> 4.5.0'
 matrix:
   include:
-    - rvm 1.9.3
-    - PUPPET_GEM_VERSION="~> 3.0" BEAKER_set="default"
-gemfile: .gemfile
+  - rvm: default
+    sudo: required
+    services: docker
+    env: BEAKER_set=centos67 BEAKER_debug=true
+    script: bundle exec rake beaker
+  - rvm: default
+    sudo: required
+    services: docker
+    env: BEAKER_set=centos7 BEAKER_debug=true
+    script: bundle exec rake beaker
+  - rvm: default
+    sudo: required
+    services: docker
+    env: BEAKER_set=jessie BEAKER_debug=true
+    script: bundle exec rake beaker
+  - rvm: default
+    sudo: required
+    services: docker
+    env: BEAKER_set=trusty BEAKER_debug=true
+    script: bundle exec rake beaker
+  - rvm: default
+    sudo: required
+    services: docker
+    env: BEAKER_set=xenial BEAKER_debug=true
+script: bundle exec rake beaker

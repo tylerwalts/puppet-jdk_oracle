@@ -1,4 +1,4 @@
-# module_root/spec/acceptance/nodesets/default.yml
+# module_root/spec/acceptance/nodesets/centos67.yml
 HOSTS:
   centos67:
     platform: el-6-x84_64
@@ -14,16 +14,6 @@ HOSTS:
       - 'rpm -Uvh puppetlabs-release-pc1-el-6.noarch.rpm'
       - 'yum -y install puppet-agent'
     proxyurl: ~
-  debian8:
-      platform: debian-8-amd64
-      image: debian:8
-      hypervisor: docker
-      docker_preserve_image: true
-      roles:
-        - agent
-      docker_image_commands:
-        - 'apt-get update && apt-get -y install puppet'
-      proxyurl: ~
 CONFIG:
   type: foss
   log_level: info
@@ -31,4 +21,3 @@ CONFIG:
 ssh:
   password: root
   auth_methods: ["password"]
-
