@@ -2,7 +2,7 @@
 HOSTS:
   debian8:
     platform: debian-8-amd64
-    image: debian:pmu
+    image: debian:8
     hypervisor: docker
     docker_preserve_image: true
     roles:
