@@ -10,6 +10,7 @@ HOSTS:
       - default
     docker_image_commands:
       - 'apt-get update && apt-get -y install puppet curl'
+    proxyurl: False
 CONFIG:
   type: foss
   log_level: info
