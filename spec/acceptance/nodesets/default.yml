@@ -13,7 +13,6 @@ HOSTS:
       - 'wget http://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm'
       - 'rpm -Uvh puppetlabs-release-pc1-el-6.noarch.rpm'
       - 'yum -y install puppet-agent'
-    proxyurl: ~
   debian8:
       platform: debian-8-amd64
       image: debian:8
