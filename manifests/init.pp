@@ -75,8 +75,5 @@ class jdk_oracle (
     jce            => $jce,
     default_java   => $default_java,
   }
-
-  ensure_resources('Package', { 'curl' => { ensure => present}})
-  ensure_resources('Package', { 'unzip' => { ensure => present}})
-
+  ensure_packages(['curl','unzip'], {'ensure' => 'present'})
 }
