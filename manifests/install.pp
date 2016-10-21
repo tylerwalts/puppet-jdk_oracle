@@ -51,6 +51,8 @@ define jdk_oracle::install(
           $version_b = $default_8_build
         }
         $pkg_name = "${package}-${version}u${version_u}-linux-${plat_filename}.tar.gz"
+        # useful to set alternatives priority
+        $int_version = "1${version}0${version_u}"
         $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${pkg_name}"
         $java_home = "${install_dir}/${package_home}1.${version}.0_${version_u}"
         $jdc_download_uri = "${jdk_oracle::download_url}/jce/8/jce_policy-8.zip"
@@ -67,6 +69,8 @@ define jdk_oracle::install(
           $version_b = $default_7_build
         }
         $pkg_name = "${package}-${version}u${version_u}-linux-${plat_filename}.tar.gz"
+        # useful to set alternatives priority
+        $int_version = "1${version}0${version_u}"
         $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${pkg_name}"
         $java_home = "${install_dir}/${package_home}1.${version}.0_${version_u}"
         $jdc_download_uri = "${jdk_oracle::download_url}/jce/7/UnlimitedJCEPolicyJDK7.zip"
@@ -155,29 +159,46 @@ define jdk_oracle::install(
       group  => root,
     }
 
-    $default_alt_entries = {
-      ensure   => present,
-      priority => 10,
-      require  => Archive["${install_dir}/${installer_filename}"]
-    }
-    $alternatives_entries = {
-      "${java_home}/bin/java"  => { altname  => 'java', altlink => '/usr/bin/java' },
-      "${java_home}/bin/javac" => { altname  => 'javac', altlink => '/usr/bin/javac' },
-      "${java_home}/bin/jar"   => { altname  => 'jar', altlink => '/usr/bin/jar' },
-    }
     if ($package == 'jdk' ) {
-      ensure_resources('alternative_entry', $alternatives_entries, $default_alt_entries)
-    } else {
-      ensure_resources('alternative_entry', { "${java_home}/bin/java" => { altname  => 'java', altlink => '/usr/bin/java' } }, $default_alt_entries)
+      alternative_entry { "${java_home}/bin/javac":
+        ensure   => present,
+        altlink  => '/usr/bin/javac',
+        altname  => 'javac',
+        priority => $int_version,
+        require  => Archive["${install_dir}/${installer_filename}"]
+      }
+      alternative_entry { "${java_home}/bin/jar":
+        ensure   => present,
+        altlink  => '/usr/bin/jar',
+        altname  => 'jar',
+        priority => $int_version,
+        require  => Archive["${install_dir}/${installer_filename}"]
+      }
+    }
+    alternative_entry { "${java_home}/bin/java":
+      ensure   => present,
+      altlink  => '/usr/bin/java',
+      altname  => 'java',
+      priority => $int_version,
+      require  => Archive["${install_dir}/${installer_filename}"]
     }
     # Set links depending on osfamily or operating system fact
     case $::osfamily {
       'RedHat', 'Linux', 'debian': {
         if ( $default_java ) {
-          ensure_resources('alternatives', { java => { path => "${java_home}/bin/java" } })
+          alternatives { 'java':
+            path    => "${java_home}/bin/java",
+            require => Alternative_entry["${java_home}/bin/java"]
+          }
           if $package == 'jdk' {
-            ensure_resources('alternatives', { javac => { path => "${java_home}/bin/javac" } })
-            ensure_resources('alternatives', { jar => { path => "${java_home}/bin/jar" } })
+            alternatives { 'javac':
+              path    => "${java_home}/bin/javac",
+              require => Alternative_entry["${java_home}/bin/javac"]
+            }
+            alternatives { 'jar':
+              path    => "${java_home}/bin/jar",
+              require => Alternative_entry["${java_home}/bin/jar"]
+            }
           }
           file { '/etc/profile.d/java.sh':
             ensure  => present,
