@@ -1,3 +1,10 @@
 fixtures:
   symlinks:
     jdk_oracle: "#{source_dir}"
+    stdlib: "#{source_dir}/puppetlabs-stdlib"
+    archive: "#{source_dir}/puppet-archive"
+    alternatives: "#{source_dir}/puppet-alternatives"
+  repositories:
+    stdlib: "https://github.com/puppetlabs/puppetlabs-stdlib.git"
+    archive: "https://github.com/voxpupuli/puppet-archive.git"
+    alternatives: "https://github.com/voxpupuli/puppet-alternatives.git"

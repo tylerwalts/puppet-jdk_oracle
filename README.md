@@ -92,7 +92,7 @@ site.pp:
 
 
 ## Parameters:
-
+### Class jdk_oracle
 * version
     *  Java Version to install
 * version_update
@@ -110,6 +110,68 @@ site.pp:
 *  jce
     * Boolean to optionally install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files (Java 8 only)
 *  default_java
-    * Boolean to indicate if the installed java version is linked as the default java, javac etc...
+    * Default to false. Boolean to indicate if the installed java version is linked as the default java, javac etc...
 *  ensure
     * Boolean to disable anything from happening (absent/removal not supported yet)
+*  download_url
+    * string: the download base url to use. default to oracle cdn. should contain the jdk directory. eg : https://custom_host -> https://custom_host/jdk/8u11-b12/jdk-8u11-linux-x64.tar.gz
+* proxy_host
+    * a proxy host use. Default to undef.
+    
+### jdk_oracle::install
+Basicaly the same option as class jdk_oracle.
+* version
+    *  Java Version to install
+* version_update
+    *  Java Version update to install
+* version_build
+    *  Java Version build to install
+*  install_dir
+    *  Java Installation Directory
+*  use_cache
+    *  Optionally host the installer file locally instead of fetching it each time, for faster dev & test
+*  platform
+    *  The platform to use
+*  package
+    *  The package to install. Can be one of the following: jdk, jre, server-jre
+*  jce
+    * Boolean to optionally install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files (Java 8 only)
+*  default_java
+    * Default to false. Boolean to indicate if the installed java version is linked as the default java, javac etc...
+*  create_symlink:
+    * default to false. Do we have to create a symlink of java_home to the default java_home
+*  proxy
+
+## Example Usage.
+
+to install the default jdk8u11 plus jdk8u102 as default with JCE with default parameters :
+
+```puppet
+class { 'jdk_oracle':
+  jce        => true
+}
+
+jdk_oracle::install { 'jdk_11u102':
+  version_update => '102',
+  version_build  => '14',
+  default_java   => true,
+  jce            => true,
+  install_dir    => '/usr/java'
+}
+```
+
+to install only jdk8u102 as default with jce, with custom repository and proxy
+```puppet
+class { 'jdk_oracle':
+  jce            => true,
+  default        => true,
+  download_url   => 'https://nexus.corp/java',
+  proxy_host     => 'http://proxyhost:3128',
+  version_update => '102',
+  version_build  => '14',
+}
+```
+
+
+
+

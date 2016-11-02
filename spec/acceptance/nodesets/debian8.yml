@@ -1,0 +1,20 @@
+# module_root/spec/acceptance/nodesets/debian8.yml
+HOSTS:
+  debian8:
+    platform: debian-8-amd64
+    image: debian:8
+    hypervisor: docker
+    docker_preserve_image: true
+    roles:
+      - agent
+      - default
+    docker_image_commands:
+      - 'apt-get update && apt-get -y install puppet curl'
+    proxyurl: False
+CONFIG:
+  type: foss
+  log_level: info
+  masterless: true
+ssh:
+  password: root
+  auth_methods: ["password"]

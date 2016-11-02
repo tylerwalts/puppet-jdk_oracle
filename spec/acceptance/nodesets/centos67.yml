@@ -1,0 +1,23 @@
+# module_root/spec/acceptance/nodesets/centos67.yml
+HOSTS:
+  centos67:
+    platform: el-6-x84_64
+    image: centos:6.7
+    hypervisor: docker
+    docker_preserve_image: true
+    roles:
+      - agent
+      - default
+    docker_image_commands:
+      - 'yum -y install wget'
+      - 'wget http://yum.puppetlabs.com/puppetlabs-release-pc1-el-6.noarch.rpm'
+      - 'rpm -Uvh puppetlabs-release-pc1-el-6.noarch.rpm'
+      - 'yum -y install puppet-agent'
+    proxyurl: False
+CONFIG:
+  type: foss
+  log_level: info
+  masterless: true
+ssh:
+  password: root
+  auth_methods: ["password"]
