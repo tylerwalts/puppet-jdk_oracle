@@ -205,6 +205,12 @@ define jdk_oracle::install(
             content => "export JAVA_HOME=${java_home}; PATH=\${PATH}:${java_home}/bin",
             require => Alternatives['java'],
           }
+          augeas { 'environment':
+            context => '/files/etc/environment',
+            changes => [
+              "set JAVA_HOME ${java_home}",
+            ],
+          }
           if ( $create_symlink ) {
             file { "${install_dir}/java_home":
               ensure  => link,
