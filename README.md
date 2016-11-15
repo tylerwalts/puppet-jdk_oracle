@@ -110,7 +110,7 @@ site.pp:
 *  jce
     * Boolean to optionally install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files (Java 8 only)
 *  default_java
-    * Default to false. Boolean to indicate if the installed java version is linked as the default java, javac etc...
+    * Boolean to indicate if the installed java version is linked as the default java, javac etc. Defaults to true.
 *  ensure
     * Boolean to disable anything from happening (absent/removal not supported yet)
 *  download_url
@@ -137,9 +137,9 @@ Basicaly the same option as class jdk_oracle.
 *  jce
     * Boolean to optionally install Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files (Java 8 only)
 *  default_java
-    * Default to false. Boolean to indicate if the installed java version is linked as the default java, javac etc...
+    * Boolean to indicate if the installed java version is linked as the default java, javac etc. Defaults to true.
 *  create_symlink:
-    * default to false. Do we have to create a symlink of java_home to the default java_home
+    * Boolean to indicate if we have to create a symlink of java_home to the default java_home. Defaults to true.
 *  proxy
 
 ## Example Usage.
