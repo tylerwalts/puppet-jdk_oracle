@@ -8,8 +8,8 @@ define jdk_oracle::install(
   $platform       = 'x64',
   $package        = 'jdk',
   $jce            = false,
-  $default_java   = false,
-  $create_symlink = false,
+  $default_java   = true,
+  $create_symlink = true,
   $ensure         = 'installed',
 ) {
 
