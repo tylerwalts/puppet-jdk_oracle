@@ -112,7 +112,7 @@ define jdk_oracle::install(
       exec { "get_${package}_installer_${version}":
         cwd     => $install_dir,
         creates => "${install_dir}/${package}_from_cache",
-        command => 'touch ${package}_from_cache',
+        command => "touch ${package}_from_cache",
       }
     } else {
       if ( $version in [ '7', '8' ] ) {
