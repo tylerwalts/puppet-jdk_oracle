@@ -10,6 +10,7 @@ define jdk_oracle::install(
   $jce            = false,
   $default_java   = true,
   $create_symlink = true,
+  $hash           = undef,
   $ensure         = 'installed',
 ) {
 
@@ -19,6 +20,10 @@ define jdk_oracle::install(
   $default_7_build  = '01'
   $default_6_update = '45'
   $default_6_build  = '06'
+
+  if($hash == undef){
+    fail("You must set a hash")
+  }
 
   if $ensure == 'installed' {
     # Set default exec path for this module
@@ -53,7 +58,7 @@ define jdk_oracle::install(
         $pkg_name = "${package}-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         # useful to set alternatives priority
         $int_version = "1${version}0${version_u}"
-        $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${pkg_name}"
+        $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${hash}/${pkg_name}"
         $java_home = "${install_dir}/${package_home}1.${version}.0_${version_u}"
         $jdc_download_uri = "${jdk_oracle::download_url}/jce/8/jce_policy-8.zip"
       }
@@ -71,7 +76,7 @@ define jdk_oracle::install(
         $pkg_name = "${package}-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         # useful to set alternatives priority
         $int_version = "1${version}0${version_u}"
-        $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${pkg_name}"
+        $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${hash}/${pkg_name}"
         $java_home = "${install_dir}/${package_home}1.${version}.0_${version_u}"
         $jdc_download_uri = "${jdk_oracle::download_url}/jce/7/UnlimitedJCEPolicyJDK7.zip"
       }
