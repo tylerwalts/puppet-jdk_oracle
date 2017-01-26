@@ -62,8 +62,8 @@ class jdk_oracle (
   $hash           = undef,
   $ensure         = 'installed'
   ) {
-    
-  if(!defined($hash)){
+
+  if($hash == undef){
     fail("You must set a hash")
   }
 
