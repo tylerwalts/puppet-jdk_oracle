@@ -59,8 +59,13 @@ class jdk_oracle (
   $default_java   = hiera('jdk_oracle::default_java',   true ),
   $download_url   = hiera('jdk_oracle::download_url',   'http://download.oracle.com/otn-pub/java'),
   $proxy_host     = hiera('jdk_oracle::proxy_host',     false ),
+  $hash           = undef,
   $ensure         = 'installed'
   ) {
+    
+  if(!defined($hash)){
+    fail("You must set a hash")
+  }
 
   jdk_oracle::install { 'jdk_oracle':
     ensure         => $ensure,
@@ -73,6 +78,7 @@ class jdk_oracle (
     platform       => $platform,
     package        => $package,
     jce            => $jce,
+    hash           => $hash,
     default_java   => $default_java,
   }
   ensure_packages(['curl','unzip'], {'ensure' => 'present'})
