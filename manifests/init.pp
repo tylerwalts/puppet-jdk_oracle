@@ -64,7 +64,7 @@ class jdk_oracle (
   ) {
 
   if($hash == undef){
-    fail("You must set a hash")
+    fail('You must set a hash')
   }
 
   jdk_oracle::install { 'jdk_oracle':

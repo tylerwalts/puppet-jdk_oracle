@@ -22,7 +22,7 @@ define jdk_oracle::install(
   $default_6_build  = '06'
 
   if($hash == undef){
-    fail("You must set a hash")
+    fail('You must set a hash')
   }
 
   if $ensure == 'installed' {
