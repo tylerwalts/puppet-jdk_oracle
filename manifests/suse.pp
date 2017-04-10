@@ -38,112 +38,112 @@ class jdk_oracle::suse {
     ensure  => link,
     target  => "${java_home_loc}/jre/lib/rt.jar",
     require => File[ $export_dir ],
-  } ->
-  file { "${export_dir}/jaas-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/jaas-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/jaas-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jaas.jar" :
+  }
+  -> file { "${export_dir}/jaas.jar" :
     ensure => link,
     target => "${export_dir}/jaas-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jce-${export_version}_Orac.jar" :
+  }
+  -> file { "${export_dir}/jce-${export_version}_Orac.jar" :
     ensure => link,
     target => "${java_home_loc}/jre/lib/jce.jar",
-  } ->
-  file { "${export_dir}/jce-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/jce-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/jce-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jce.jar" :
+  }
+  -> file { "${export_dir}/jce.jar" :
     ensure => link,
     target => "${export_dir}/jce-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jdbc-stdext-${export_version}_Orac.jar" :
+  }
+  -> file { "${export_dir}/jdbc-stdext-${export_version}_Orac.jar" :
     ensure => link,
     target => "${java_home_loc}/jre/lib/rt.jar",
-  } ->
-  file { "${export_dir}/jdbc-stdext-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/jdbc-stdext-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/jdbc-stdext-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jdbc-stdext-3.0.jar" :
+  }
+  -> file { "${export_dir}/jdbc-stdext-3.0.jar" :
     ensure => link,
     target => "${export_dir}/jdbc-stdext-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jdbc-stdext.jar" :
+  }
+  -> file { "${export_dir}/jdbc-stdext.jar" :
     ensure => link,
     target => "${export_dir}/jdbc-stdext-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jndi-${export_version}_Orac.jar" :
+  }
+  -> file { "${export_dir}/jndi-${export_version}_Orac.jar" :
     ensure => link,
     target => "${java_home_loc}/jre/lib/rt.jar",
-  } ->
-  file { "${export_dir}/jndi-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/jndi-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/jndi-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jndi.jar" :
+  }
+  -> file { "${export_dir}/jndi.jar" :
     ensure => link,
     target => "${export_dir}/jndi-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jndi-cos-${export_version}_Orac.jar" :
+  }
+  -> file { "${export_dir}/jndi-cos-${export_version}_Orac.jar" :
     ensure => link,
     target => "${java_home_loc}/jre/lib/rt.jar",
-  } ->
-  file { "${export_dir}/jndi-cos-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/jndi-cos-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/jndi-cos-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jndi-cos.jar" :
+  }
+  -> file { "${export_dir}/jndi-cos.jar" :
     ensure => link,
     target => "${export_dir}/jndi-cos-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jndi-ldap-${export_version}_Orac.jar" :
+  }
+  -> file { "${export_dir}/jndi-ldap-${export_version}_Orac.jar" :
     ensure => link,
     target => "${java_home_loc}/jre/lib/rt.jar",
-  } ->
-  file { "${export_dir}/jndi-ldap-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/jndi-ldap-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/jndi-ldap-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jndi-ldap.jar" :
+  }
+  -> file { "${export_dir}/jndi-ldap.jar" :
     ensure => link,
     target => "${export_dir}/jndi-ldap-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jndi-rmi-${export_version}_Orac.jar" :
+  }
+  -> file { "${export_dir}/jndi-rmi-${export_version}_Orac.jar" :
     ensure => link,
     target => "${java_home_loc}/jre/lib/rt.jar",
-  } ->
-  file { "${export_dir}/jndi-rmi-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/jndi-rmi-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/jndi-rmi-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jndi-rmi.jar" :
+  }
+  -> file { "${export_dir}/jndi-rmi.jar" :
     ensure => link,
     target => "${export_dir}/jndi-rmi-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jsse-${export_version}_Orac.jar" :
+  }
+  -> file { "${export_dir}/jsse-${export_version}_Orac.jar" :
     ensure => link,
     target => "${java_home_loc}/jre/lib/jsse.jar",
-  } ->
-  file { "${export_dir}/jsse-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/jsse-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/jsse-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/jsse.jar" :
+  }
+  -> file { "${export_dir}/jsse.jar" :
     ensure => link,
     target => "${export_dir}/jsse-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/sasl-${export_version}_Orac.jar" :
+  }
+  -> file { "${export_dir}/sasl-${export_version}_Orac.jar" :
     ensure => link,
     target => "${java_home_loc}/jre/lib/rt.jar",
-  } ->
-  file { "${export_dir}/sasl-${export_version}.jar" :
+  }
+  -> file { "${export_dir}/sasl-${export_version}.jar" :
     ensure => link,
     target => "${export_dir}/sasl-${export_version}_Orac.jar",
-  } ->
-  file { "${export_dir}/sasl.jar" :
+  }
+  -> file { "${export_dir}/sasl.jar" :
     ensure => link,
     target => "${export_dir}/sasl-${export_version}_Orac.jar",
   }
