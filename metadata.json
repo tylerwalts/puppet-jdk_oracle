@@ -1,6 +1,6 @@
 {
   "name": "tylerwalts-jdk_oracle",
-  "version": "1.6.0",
+  "version": "2.0.0",
   "author": "tylerwalts",
   "summary": "Module for automating Oracle JDK download and installation",
   "license": "Apache-2.0",
