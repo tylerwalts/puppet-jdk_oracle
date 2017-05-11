@@ -99,6 +99,8 @@ site.pp:
     *  Java Version update to install
 * version_build
     *  Java Version build to install
+* version_hash
+    * The hash in more current Oracle download URLs
 *  install_dir
     *  Java Installation Directory
 *  use_cache
@@ -126,6 +128,8 @@ Basicaly the same option as class jdk_oracle.
     *  Java Version update to install
 * version_build
     *  Java Version build to install
+* version_hash
+    * The hash in more current Oracle download URLs
 *  install_dir
     *  Java Installation Directory
 *  use_cache

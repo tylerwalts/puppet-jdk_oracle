@@ -10,13 +10,15 @@ define jdk_oracle::install(
   $jce            = false,
   $default_java   = true,
   $create_symlink = true,
+  $version_hash   = '',
   $ensure         = 'installed',
 ) {
 
-  $default_8_update = '11'
-  $default_8_build  = '12'
-  $default_7_update = '67'
-  $default_7_build  = '01'
+  $default_8_update = '121'
+  $default_8_build  = '13'
+  $default_8_hash = 'e9e7ea248e2c4826b92b3f075a80e441'
+  $default_7_update = '80'
+  $default_7_build  = '15'
   $default_6_update = '45'
   $default_6_build  = '06'
 
@@ -50,10 +52,24 @@ define jdk_oracle::install(
         } else {
           $version_b = $default_8_build
         }
+        if (($version_update == 'default' or $version_build == 'default') and ($version_hash == '')) {
+          # If either version parts are default and hash is empty,
+          # Assume, that the user means the default value
+          $version_h = $default_8_hash
+        } elsif ($version_hash != 'default') {
+          $version_h = $version_hash
+        } else {
+          $version_h = $default_8_hash
+        }
         $pkg_name = "${package}-${version}u${version_u}-linux-${plat_filename}.tar.gz"
         # useful to set alternatives priority
         $int_version = "1${version}0${version_u}"
-        $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${pkg_name}"
+        if ($version_h != '') {
+          $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${version_h}/${pkg_name}"
+        } else {
+          $java_download_uri = "${jdk_oracle::download_url}/jdk/${version}u${version_u}-b${version_b}/${pkg_name}"
+        }
+
         $java_home = "${install_dir}/${package_home}1.${version}.0_${version_u}"
         $jdc_download_uri = "${jdk_oracle::download_url}/jce/8/jce_policy-8.zip"
       }
@@ -108,8 +124,8 @@ define jdk_oracle::install(
       file { "${install_dir}/${installer_filename}":
         source  => "${cache_source}${installer_filename}",
         require => File[$install_dir],
-      } ->
-      exec { "get_${package}_installer_${version}":
+      }
+      -> exec { "get_${package}_installer_${version}":
         cwd     => $install_dir,
         creates => "${install_dir}/${package}_from_cache",
         command => "touch ${package}_from_cache",
@@ -241,8 +257,8 @@ define jdk_oracle::install(
         file { "${install_dir}/${jce_filename}":
           source  => "${cache_source}${jce_filename}",
           require => File[$install_dir],
-        } ->
-        exec { 'get_jce_package':
+        }
+        -> exec { 'get_jce_package':
           cwd     => $install_dir,
           creates => "${install_dir}/jce_from_cache",
           command => 'touch jce_from_cache',
