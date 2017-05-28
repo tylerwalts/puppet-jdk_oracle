@@ -83,5 +83,17 @@ class jdk_oracle (
     version_hash   => $version_hash,
     default_java   => $default_java,
   }
-  ensure_packages(['curl','unzip'], {'ensure' => 'present'})
+
+  if ! defined(Package['curl']) {
+    package { 'curl':
+      ensure =>  present,
+    }
+  }
+
+  if ! defined(Package['unzip']) {
+    package { 'unzip':
+      ensure =>  present,
+    }
+  }
+
 }

@@ -165,7 +165,12 @@ define jdk_oracle::install(
           require => Exec["get_${package}_installer_${version}"],
         }
 
-        ensure_packages(['wget'], {'ensure' => 'present'})
+        if ! defined(Package['wget']) {
+          package { 'wget':
+            ensure =>  present,
+          }
+        }
+
       }
     }
     # Ensure that files belong to root
