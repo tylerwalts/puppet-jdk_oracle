@@ -1,5 +1,24 @@
 # puppet-jdk_oracle
 
+## Deprecated!
+
+As of 2017-12-20 I've decided to no longer maintain this module, and recommend the official PuppetLabs module, here:
+
+* https://github.com/puppetlabs/puppetlabs-java
+
+The folks at puppet have implemented the `java::oracle` class such that it can auto-accept the cookie and install from tarball, just like this one, and it is better maintained.
+
+Thanks to everyone who has contributed and used this module over the years!  At the time of writing, this module has picked up over 56K downloads and a 4.9 quality rating on the Puppet Forge.
+
+Please reach out if you would like to take over maintenance on this module.
+
+Cheers,
+
+- Tyler
+
+-----
+
+
 [![Build Status](https://travis-ci.org/tylerwalts/puppet-jdk_oracle.png?branch=master)](https://travis-ci.org/tylerwalts/puppet-jdk_oracle)
 
 ## Overview
